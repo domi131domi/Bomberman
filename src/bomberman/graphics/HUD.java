@@ -1,7 +1,9 @@
-package bomberman.main;
+package bomberman.graphics;
 
 import java.awt.Color;
 import java.awt.Graphics;
+
+import bomberman.main.Game;
 
 public class HUD {
 	

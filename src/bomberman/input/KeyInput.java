@@ -1,7 +1,9 @@
-package bomberman.main;
+package bomberman.input;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
+import bomberman.objects.GameObject;
 
 public class KeyInput extends KeyAdapter {
 	

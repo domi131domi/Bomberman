@@ -1,9 +1,11 @@
-package bomberman.main;
+package bomberman.gui;
 
 import java.awt.Canvas;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+
+import bomberman.main.Game;
 
 public class Window extends Canvas {
 	

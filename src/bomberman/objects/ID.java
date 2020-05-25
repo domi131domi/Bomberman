@@ -1,4 +1,4 @@
-package bomberman.main;
+package bomberman.objects;
 
 //recognizing which object it is
 

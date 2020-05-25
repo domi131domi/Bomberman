@@ -6,6 +6,14 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.util.Random;
 
+import bomberman.graphics.HUD;
+import bomberman.graphics.Handler;
+import bomberman.gui.Window;
+import bomberman.input.KeyInput;
+import bomberman.objects.ID;
+import bomberman.objects.players.Player1;
+import bomberman.objects.players.Player2;
+
 
 public class Game extends Canvas implements Runnable {
 	
@@ -34,11 +42,11 @@ public class Game extends Canvas implements Runnable {
 		handler.addObject( new Player1( WIDTH/2 - 32, HEIGHT/2 - 32, ID.Player1, handler ) );
 		handler.addObject( new Player2( WIDTH/2 + 64, HEIGHT/2 + 64, ID.Player2 ) );
 		
-		for( int i = 1; i < HEIGHT/48/2 - 1 ; i++ ) {
-			for( int j = 1; j < WIDTH/48/2 - 1 ; j++ ) {
-				handler.addObject( new Block( j*48*2, i*48*2, ID.Block ));
-			}
-		}
+		//for( int i = 1; i < HEIGHT/48/2 - 1 ; i++ ) {
+		//	for( int j = 1; j < WIDTH/48/2 - 1 ; j++ ) {
+		//		handler.addObject( new Block( j*48*2, i*48*2, ID.Block ));
+		//	}
+		//}
 	}
 
 	public synchronized void start(){
