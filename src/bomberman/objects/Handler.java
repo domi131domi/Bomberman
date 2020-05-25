@@ -1,24 +1,26 @@
 package bomberman.objects;
 
-import java.awt.Graphics;
 import java.util.LinkedList;
 
-//loop through all other objects in a game ?
-public class Handler {
+import bomberman.graphics.Rendering;
+import bomberman.graphics.Screen;
+
+public class Handler implements Rendering {
 	
-	LinkedList<GameObject> object = new LinkedList<GameObject>();
+	public LinkedList<GameObject> object = new LinkedList<GameObject>();
 	
+	@Override
 	public void tick() {
 		for( int i = 0; i < object.size(); i++ ) {
 			GameObject tempObject = object.get(i);
 			tempObject.tick();
 		}
 	}
-	
-	public void render( Graphics g ) {
+	@Override
+	public void render( Screen screen ) {
 		for( int i = 0; i < object.size(); i++ ) {
 			GameObject tempObject = object.get(i);
-			tempObject.render(g);
+			tempObject.render(screen);
 		}
 	}
 	
