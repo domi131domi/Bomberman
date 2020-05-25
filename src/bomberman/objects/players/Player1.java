@@ -5,9 +5,9 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import bomberman.graphics.HUD;
-import bomberman.graphics.Handler;
 import bomberman.main.Game;
 import bomberman.objects.GameObject;
+import bomberman.objects.Handler;
 import bomberman.objects.ID;
 
 public class Player1 extends GameObject {

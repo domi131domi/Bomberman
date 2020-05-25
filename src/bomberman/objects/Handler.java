@@ -1,9 +1,7 @@
-package bomberman.graphics;
+package bomberman.objects;
 
 import java.awt.Graphics;
 import java.util.LinkedList;
-
-import bomberman.objects.GameObject;
 
 //loop through all other objects in a game ?
 public class Handler {

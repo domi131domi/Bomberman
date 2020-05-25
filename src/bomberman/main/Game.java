@@ -7,9 +7,9 @@ import java.awt.image.BufferStrategy;
 import java.util.Random;
 
 import bomberman.graphics.HUD;
-import bomberman.graphics.Handler;
 import bomberman.gui.Window;
 import bomberman.input.KeyInput;
+import bomberman.objects.Handler;
 import bomberman.objects.ID;
 import bomberman.objects.players.Player1;
 import bomberman.objects.players.Player2;
