@@ -1,12 +1,13 @@
 package bomberman.objects;
 
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import bomberman.graphics.Rendering;
+import bomberman.graphics.Screen;
 
-public abstract class GameObject {
+public abstract class GameObject implements Rendering {
 
 	protected int x, y;
 	protected ID id;
+	protected boolean removed = false; 
 
 	
 	public GameObject( int x, int y, ID id ) {
@@ -14,10 +15,17 @@ public abstract class GameObject {
 		this.y = y;
 		this.id = id;
 	}
-	
+	@Override
 	public abstract void tick();
-	public abstract void render( Graphics g );
-	public abstract Rectangle getBounds();
+	
+	@Override
+	public abstract void render( Screen screen );	
+	
+	public abstract boolean collide( GameObject object );		//collision with other objects
+	
+	
+	
+	//standard methods
 	
 	public void setX( int x ) {
 		this.x = x;
