@@ -31,7 +31,7 @@ public class Game extends Canvas implements Runnable {
 	
 	public Game() {
 		handler = new Handler();
-		this.addKeyListener(new KeyInput(handler));
+		//this.addKeyListener(new KeyInput(handler));
 		 
 		new Window( WIDTH, HEIGHT, "The Bomberman", this );
 		
@@ -40,7 +40,7 @@ public class Game extends Canvas implements Runnable {
 		r = new Random();
 		
 		handler.addObject( new Player1( WIDTH/2 - 32, HEIGHT/2 - 32, ID.Player1, handler ) );
-		handler.addObject( new Player2( WIDTH/2 + 64, HEIGHT/2 + 64, ID.Player2 ) );
+		handler.addObject( new Player2( WIDTH/2 + 64, HEIGHT/2 + 64, ID.Player2, handler ) );
 		
 		//for( int i = 1; i < HEIGHT/48/2 - 1 ; i++ ) {
 		//	for( int j = 1; j < WIDTH/48/2 - 1 ; j++ ) {

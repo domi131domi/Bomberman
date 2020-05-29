@@ -1,4 +1,4 @@
-package server;
+package bomberman.server;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

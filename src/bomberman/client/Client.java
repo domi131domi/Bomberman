@@ -1,11 +1,11 @@
-package client;
+package bomberman.client;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import server.Msg;
+import bomberman.server.Msg;
 
 public class Client {
 	private Socket clientSocket;
