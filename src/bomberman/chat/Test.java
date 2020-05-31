@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 import bomberman.client.Client;
+import bomberman.server.Msg;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -53,26 +54,23 @@ public class Test {
 		frame.getContentPane().add(lpanel, BorderLayout.WEST);
 		
 		Client client = new Client();
-		try {
-			client.connect("localhost", 6666);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Chat chat = new Chat(lpanel, client, "Adam");
+		Chat chat = new Chat(lpanel, client,"Default");
 		
-		Thread listenThread = new Thread("listenForClients") {
+
+		Thread listenThread = new Thread("ChatProgram Listener") {
 			public void run() {
 		while(true) {
-			
-			
 			try {
-				chat.printToConsole(client.getMessage().getSystemMessage());
-			} catch (ClassNotFoundException | IOException e) {
+				chat.printToConsole(client.getMessage().getTextMessage());
+			} catch (IOException | ClassNotFoundException e) {
 				e.printStackTrace();
+			} catch(NullPointerException e2) {
+				
 			}
-			
 		}
-		}}; listenThread.start();
+			}}; listenThread.start();
+		
+			
 		
 	}
 	

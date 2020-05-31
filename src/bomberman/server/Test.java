@@ -17,27 +17,34 @@ public class Test {
 		}
 		serv.stopListenForClients();
 		
-		Thread listenThread = new Thread("listenForClients") {
+		
+		Thread listenThread = new Thread("ChatProgram Listener") {
 			public void run() {
-				while(true) {
-					Msg mess;
-					try {
-						mess = serv.getMessage(1, true);
-						serv.broadcast(mess, true);		
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
-				}
+				Msg mess1;
+		while(true) {
+			try {
+				mess1 = serv.getMessage(1, true);
+				serv.broadcast(mess1, true);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch(NullPointerException e2) {
+				
+			}
+		}
 			}}; listenThread.start();
 		
-		while(true) {
-			Msg mess = serv.getMessage(0, true);
-			serv.broadcast(mess, true);		
-		}
-		
-		
+			while(true) {
+				Msg mess0;
+				try {
+					mess0 = serv.getMessage(0, true);
+					serv.broadcast(mess0, true);
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+					
+			}	
+			
+			
 	}
 
 }

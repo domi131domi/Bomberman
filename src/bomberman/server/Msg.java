@@ -4,18 +4,25 @@ import java.io.Serializable;
 
 public class Msg implements Serializable{
 	private static final long serialVersionUID = 1L;
-	private String systemMessage;
 	private String textMessage;
 	
-	public Msg(String systemMessage) {
-		this.systemMessage = systemMessage;
+	public Msg() {
+		
 	}
 	
-	public String getSystemMessage() {
-		return systemMessage;
+	public Msg(String textMessage) {
+		this.textMessage = textMessage;
 	}
 	
 	public String getTextMessage() {
 		return textMessage;
+	}
+	
+	public void setTextMessage(String textMessage) {
+		this.textMessage = textMessage;
+	}
+	
+	public void clear() {
+		this.textMessage = null;
 	}
 }
