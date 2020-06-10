@@ -1,4 +1,4 @@
-package bomberman.chat;
+package bmbremaster.chat;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

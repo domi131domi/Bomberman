@@ -1,9 +1,9 @@
-package bomberman.client;
+package bmbremaster.client;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-import bomberman.server.Msg;
+import bmbremaster.server.Msg;
 
 public class Run {
 
@@ -11,7 +11,7 @@ public class Run {
 		Client client = new Client();
 		client.connect("localhost", 6666);
 		client.sendMessage(new Msg("Dominik"));
-		System.out.println(client.getMessage().getSystemMessage());
+		System.out.println(client.getMessage().getTextMessage());
 		client.disconnect();
 	}
 

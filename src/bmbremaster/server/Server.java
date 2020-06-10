@@ -1,11 +1,11 @@
-package bomberman.server;
+package bmbremaster.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import bomberman.server.ClientInfo;
+import bmbremaster.server.ClientInfo;
 
 public class Server {
 	private ServerSocket serverSocket;

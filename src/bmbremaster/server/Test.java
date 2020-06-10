@@ -1,4 +1,4 @@
-package bomberman.server;
+package bmbremaster.server;
 
 import java.io.IOException;
 

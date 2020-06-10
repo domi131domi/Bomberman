@@ -1,4 +1,4 @@
-package bomberman.chat;
+package bmbremaster.chat;
 
 import java.awt.EventQueue;
 import java.io.IOException;
