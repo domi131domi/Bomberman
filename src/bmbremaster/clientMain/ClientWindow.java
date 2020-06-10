@@ -36,4 +36,8 @@ public class ClientWindow {
 		frame.pack();
 	}
 	
+	public Canvas getCanvas() {
+		return this.canvas;
+	}
+	
 }
