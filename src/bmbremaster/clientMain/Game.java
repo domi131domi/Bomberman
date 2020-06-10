@@ -1,12 +1,14 @@
 package bmbremaster.clientMain;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
 
 import bmbremaster.server.Msg;
 import bmbremaster.client.Client;
+import bmbremaster.graphics.GameInfo;
 
 public class Game implements Runnable {
 	
@@ -15,13 +17,17 @@ public class Game implements Runnable {
 	private boolean running = false;
 	private Client client;
 	private KeyInput keyboard;
+	private GameInfo gameInfo;
+	private boolean connected = false;
 	
 	private BufferStrategy bs;
 	private Graphics g;
 	
 	private int width, height;
 	private String title;
-	
+	private final int playerSizeX = 50;
+	private final int playerSizeY = 50;
+
 	public Game(String title, int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -30,18 +36,28 @@ public class Game implements Runnable {
 		keyboard = new KeyInput();
 		window.getCanvas().addKeyListener(keyboard);
 		client = new Client();
+		gameInfo = new GameInfo();
 		
 		try {
 			client.connect("localhost", 6666);
+			connected = true;
 		} catch (IOException e) {
 			e.printStackTrace();
+			connected = false;
 		}
 		
 		
 	}
 	
 	private void tick() {
-		
+		//Load coordinates
+		try {
+			Msg coords = client.getMessage();
+			gameInfo.setPlayer(0, new Dimension(coords.p1x, coords.p1y));
+			gameInfo.setPlayer(1, new Dimension(coords.p2x, coords.p2y));
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void render() {
@@ -50,53 +66,46 @@ public class Game implements Runnable {
 			window.getCanvas().createBufferStrategy(3);
 			return;
 		}
-		int p1x = 0, p1y = 0, p2x = 0, p2y = 0;
-		
-		//Load coordinates
-		try {
-			Msg coords = client.getMessage();
-			p1x = coords.p1x;
-			p2x = coords.p2x;
-			p1y = coords.p1y;
-			p2y = coords.p2y;
-		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
-		}
-		
 		
 		g = bs.getDrawGraphics();
-		
 		g.clearRect(0, 0, width, height);
-		
-		g.setColor(Color.red);
-		g.fillRect(p1x, p1y, 50, 70);
-		
-		g.setColor(Color.green);
-		g.fillRect(p2x, p2y, 50, 50);
+		drawGame(g);
 		
 		bs.show();
 		g.dispose();
-		
-		keyboard.update();
-		
+	}
+	
+	private void send() { 
 		try {
 			client.sendMessage(new Msg(keyboard.left, keyboard.right, keyboard.up, keyboard.down));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	private void init() {
 		
 	}
 	
+	private void drawGame(Graphics g) {
+		//draw players
+		g.setColor(Color.BLUE);
+		g.fillRect(gameInfo.getPlayer(0).width,gameInfo.getPlayer(0).height, playerSizeX, playerSizeY);
+		
+		g.setColor(Color.RED);
+		g.fillRect(gameInfo.getPlayer(1).width,gameInfo.getPlayer(1).height, playerSizeX, playerSizeY);
+	}
+	
 	public void run() {
 		init();
 		
 		while(running) {
+			if(connected) {
 			tick();
 			render();
+			keyboard.update();
+			send();
+			}
 		}
 		
 		stop();
