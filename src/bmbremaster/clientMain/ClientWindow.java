@@ -1,13 +1,18 @@
-package bmbremaster.main;
+package bmbremaster.clientMain;
+
+import java.awt.Canvas;
+import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-public class ServerWindow {
+public class ClientWindow {
 	private JFrame frame;
+	private Canvas canvas;
+	
 	private String title;
 	private int width, height;
 	
-	public ServerWindow(String title, int width, int height) {
+	public ClientWindow(String title, int width, int height) {
 		this.title = title;
 		this.width = width;
 		this.height = height;
@@ -21,6 +26,14 @@ public class ServerWindow {
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		
+		canvas = new Canvas();
+		canvas.setPreferredSize(new Dimension(width, height));
+		canvas.setMaximumSize(new Dimension(width, height));
+		canvas.setMinimumSize(new Dimension(width, height));
+		
+		frame.add(canvas);
+		frame.pack();
 	}
 	
 }
