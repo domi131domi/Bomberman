@@ -3,15 +3,14 @@ package bmbremaster.tiles.blocks;
 import java.awt.Graphics;
 
 import bmbremaster.graphics.Assets;
-import bmbremaster.server.Handler;
 import bmbremaster.tiles.Tiles;
 
 public class Bricks extends Tiles{
 	
 	private boolean exists;
 
-	public Bricks(Handler handler, float x, float y, int width, int height) {
-		super(handler, x, y, width, height);
+	public Bricks( int x, int y, int width, int height) {
+		super(x, y, width, height);
 		exists = true;
 	}
 

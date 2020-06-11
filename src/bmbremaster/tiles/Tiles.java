@@ -2,19 +2,14 @@ package bmbremaster.tiles;
 
 import java.awt.Graphics;
 
-import bmbremaster.server.Handler;
-
 public abstract class Tiles {
 
 	public static final int TILE_SIZE = 60;
 	
-	protected Handler handler;
-	
-	protected float x, y;
+	protected int x, y;
 	protected int width, height;
 	
-	public Tiles( Handler handler, float x, float y, int width, int height ) {
-		this.handler = handler;
+	public Tiles( int x, int y, int width, int height ) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -44,7 +39,7 @@ public abstract class Tiles {
 		return x;
 	}
 
-	public void setX(float x) {
+	public void setX(int x) {
 		this.x = x;
 	}
 
@@ -52,8 +47,17 @@ public abstract class Tiles {
 		return y;
 	}
 
-	public void setY(float y) {
+	public void setY(int y) {
 		this.y = y;
+	}
+	
+	public static int clamp( int var, int min, int max ) {
+		if( var >= max )
+			return var = max;
+		else if ( var <= min )
+			return var = min;
+		else
+			return var;
 	}
 	
 }

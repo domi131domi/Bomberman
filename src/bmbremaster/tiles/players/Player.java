@@ -3,7 +3,7 @@ package bmbremaster.tiles.players;
 import java.awt.Graphics;
 
 import bmbremaster.graphics.Assets;
-import bmbremaster.server.Handler;
+import bmbremaster.server.Msg;
 import bmbremaster.tiles.Tiles;
 
 public class Player extends Tiles{
@@ -14,18 +14,35 @@ public class Player extends Tiles{
 	
 	private int id;
 	private int health;
-
-	public Player( Handler handler, float x, float y, int id ) {
-		super(handler, x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y);
+	
+	public Player(int x, int y, int id ) {
+		super(x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y);
 		health = DEFAULT_HEALTH;
 		this.id = id;
 	}
 
-	@Override
-	public void tick() {
-		//getting info from GameInfo or updater and actualize coords, health etc
+	public void tick( Msg keys ) {
+		if(keys.a) {
+			x -= 5;
+			x = clamp(x, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
+		}
+		if(keys.d) {
+			x += 5;
+			x = clamp(x, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
+		}
+		if(keys.w) {
+			y -= 5;
+			y = clamp(y, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
+		}
+		if(keys.s) {
+			y += 5;
+			y = clamp(y, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
+		}
 	}
 
+	@Override
+	public void tick() {}
+	
 	@Override
 	public void render(Graphics g) {	
 		if( id == 0 )
@@ -49,6 +66,7 @@ public class Player extends Tiles{
 	public void setHealth(int health) {
 		this.health = health;
 	}
-	
+
+
 	
 }

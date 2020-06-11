@@ -1,7 +1,6 @@
 package bmbremaster.clientMain;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
@@ -12,11 +11,6 @@ import bmbremaster.graphics.GameInfo;
 import bmbremaster.server.Msg;
 
 public class Game implements Runnable {
-	
-	//temporary solution
-	private boolean drawBombOne = false;
-	private boolean drawBombTwo = false;
-	//end of temp sol
 	
 	private ClientWindow window;
 	private Thread thread;
@@ -55,8 +49,11 @@ public class Game implements Runnable {
 				window.getChat().connected = true;
 			}
 			window.getChat().printToConsole(coords.getText());
-			gameInfo.setPlayer(0, new Dimension(coords.p1x, coords.p1y));
-			gameInfo.setPlayer(1, new Dimension(coords.p2x, coords.p2y));
+			gameInfo.getPlayer(0).setX(coords.p1x);
+			gameInfo.getPlayer(0).setY(coords.p1y);			
+			gameInfo.getPlayer(1).setX(coords.p2x);
+			gameInfo.getPlayer(1).setY(coords.p2y);
+			/*
 			if(coords.draw1) {
 				gameInfo.setBomb(0, new Dimension(coords.p1x, coords.p1y));
 				drawBombOne = true;
@@ -65,6 +62,10 @@ public class Game implements Runnable {
 				gameInfo.setBomb(1, new Dimension(coords.p2x, coords.p2y));
 				drawBombTwo = true;
 			}
+			*/
+			
+			//handler.tick();
+			
 		} catch (Exception e) {
 			this.connected = false;
 			window.getChat().connected = false;
@@ -107,6 +108,8 @@ public class Game implements Runnable {
 	
 	private void init() {
 		Assets.init();
+		//handler.addObject( new Player( 10 + Tiles.TILE_SIZE, 10 + Tiles.TILE_SIZE, 0 ) );
+		//handler.addObject( new Player( Assets.WIDTH - 10 - Tiles.TILE_SIZE*2, Assets.HEIGHT - 10 - Tiles.TILE_SIZE*2, 1 ) );
 	}
 	
 	private void drawGame(Graphics g) {
@@ -135,20 +138,16 @@ public class Game implements Runnable {
 					j+=2;
 			}
 		}
-		//
-		g.drawImage( Assets.player1, gameInfo.getPlayer(0).width, gameInfo.getPlayer(0).height, null );
-		g.drawImage( Assets.player2, gameInfo.getPlayer(1).width, gameInfo.getPlayer(1).height, null );
 		
-		if(drawBombOne) {
-			System.out.println("zara narysuje bombeee1");
-			g.drawImage(Assets.bomb, gameInfo.getBomb(0).width, gameInfo.getBomb(0).height, null);
-			drawBombOne = false;
-		}
-		if(drawBombTwo) {
-			System.out.println("zara narysuje bombeee2");
-			g.drawImage(Assets.bomb, gameInfo.getBomb(1).width, gameInfo.getBomb(1).height, null);
-			drawBombTwo = false;
-		}
+		
+		//
+		//g.drawImage( Assets.player1, gameInfo.getPlayer(0).width, gameInfo.getPlayer(0).height, null );
+		
+		gameInfo.getPlayer(0).render(g);
+		gameInfo.getPlayer(1).render(g);
+		
+		//g.drawImage( Assets.player2, gameInfo.getPlayer(1).width, gameInfo.getPlayer(1).height, null );
+		
 
 	}
 	

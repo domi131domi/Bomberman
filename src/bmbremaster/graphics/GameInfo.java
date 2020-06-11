@@ -1,30 +1,19 @@
 package bmbremaster.graphics;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 
+import bmbremaster.tiles.players.Player;
+
 public class GameInfo {
-	private ArrayList<Dimension> players = new ArrayList<Dimension>();
-	//--------
-	private ArrayList<Dimension> bombs = new ArrayList<Dimension>();
-	//--------
-	public GameInfo() {
-		players.add(new Dimension(0,0));
-		players.add(new Dimension(0,0));
-		addBomb(new Dimension(0,0));
-		addBomb(new Dimension(0,0));
-		//--------
-		//--------
-	}
 	
-	public void setPlayer(int number, Dimension coords) {
-		players.set(number, coords);
-	}
+	private ArrayList<Player> players = new ArrayList<Player>();
+	//private ArrayList<Dimension> bombs = new ArrayList<Dimension>();
+	//private ArrayList<Dimension>  = new ArrayList<Dimension>();
 	
-	public Dimension getPlayer(int number) {
+	public Player getPlayer(int number) {
 		return players.get(number);
 	}
-	//-------
+	/*
 	public void setBomb(int number, Dimension coords) {
 		bombs.set(number, coords);
 	}
@@ -35,6 +24,11 @@ public class GameInfo {
 	
 	public void addBomb( Dimension coords) {
 		bombs.add(new Dimension (coords.width, coords.height));
+	}
+	*/
+	
+	public void addPlayer( Player player ) {
+		players.add( player );
 	}
 	//-----------
 }

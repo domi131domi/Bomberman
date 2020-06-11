@@ -2,13 +2,20 @@ package bmbremaster.clientMain;
 
 import java.util.Set;
 
+import bmbremaster.graphics.Assets;
+import bmbremaster.server.Handler;
 import bmbremaster.server.Msg;
 import bmbremaster.server.Server;
 import bmbremaster.tiles.Tiles;
+import bmbremaster.tiles.players.Player;
 
 public class Updater implements Runnable {
 	private boolean running = false;
 	private Thread thread;
+	
+	private Handler handler = new Handler();
+	private Player player1;
+	private Player player2;
 	
 	private  Server server = new Server();
 	private  Msg keys, msg;
@@ -23,7 +30,10 @@ public class Updater implements Runnable {
 		
 		server.start(port);
 		waitForPlayers(numberOfPlayers);
-		setIDs();	
+		setIDs();
+		
+		player1 =  new Player( 10 + Tiles.TILE_SIZE, 10 + Tiles.TILE_SIZE, 0 ) ;
+		player2 =  new Player( Assets.WIDTH - 10 - Tiles.TILE_SIZE*2, Assets.HEIGHT - 10 - Tiles.TILE_SIZE*2, 1 ) ;
 		
 		while(true) {
 			if(server.getNumberOfClients() == numberOfPlayers) {
@@ -102,17 +112,12 @@ public class Updater implements Runnable {
 		}
 	}
 	
-	private int clamp( int var, int min, int max ) {
-		if( var >= max )
-			return var = max;
-		else if ( var <= min )
-			return var = min;
-		else
-			return var;
-	}
-	
 	private void tick() {
 		setKeys(0);
+		
+		player1.tick( keys );
+		
+		/*
 		if(keys.a) {
 			x1 -= 5;
 			x1 = clamp(x1, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
@@ -133,8 +138,15 @@ public class Updater implements Runnable {
 			drawBomb1 = true;
 		else 
 			drawBomb1 = false;
+			*/
+		
+		
 		
 		setKeys(1);
+		
+		player2.tick( keys );
+		
+		/*
 		if(keys.a) {
 			x2 -= 5;
 			x2 = clamp(x2, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
@@ -155,6 +167,7 @@ public class Updater implements Runnable {
 			drawBomb2 = true;
 		else 
 			drawBomb2 = false;
+			*/
 		
 		
 		
