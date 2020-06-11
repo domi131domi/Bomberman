@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import bmbremaster.chat.Chat;
-import bomberman.client.Client;
+import bmbremaster.client.Client;
 
 public class ClientWindow {
 	private JFrame frame;
@@ -16,12 +16,15 @@ public class ClientWindow {
 	
 	private String title;
 	private int width, height;
+	private Client client;
 	private final int chatWidth = 400;
+	private Chat chat;
 	
-	public ClientWindow(String title, int width, int height) {
+	public ClientWindow(String title, int width, int height, Client client) {
 		this.title = title;
 		this.width = width;
 		this.height = height;
+		this.client = client;
 		initialize();
 	}
 	
@@ -47,13 +50,17 @@ public class ClientWindow {
 		jchat.setMinimumSize(new Dimension(50, 800));
 		frame.add(jchat, BorderLayout.EAST);
 		
-		new Chat(jchat, new Client(), "domi131domi");
+		chat = new Chat(jchat, client, "Default");
 		
 		frame.pack();
 	}
 	
 	public Canvas getCanvas() {
 		return this.canvas;
+	}
+	
+	public Chat getChat() {
+		return this.chat;
 	}
 	
 }

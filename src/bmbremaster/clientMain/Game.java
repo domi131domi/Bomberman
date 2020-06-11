@@ -24,7 +24,7 @@ public class Game implements Runnable {
 	private Client client;
 	private KeyInput keyboard;
 	private GameInfo gameInfo;
-	private boolean connected = false;
+	private boolean connected = false, errorMsg = false;
 	
 	private BufferStrategy bs;
 	private Graphics g;
@@ -37,20 +37,11 @@ public class Game implements Runnable {
 		this.width = width;
 		this.height = height;
 		this.title = title;
-		window = new ClientWindow(title, width, height);
+		client = new Client();
+		window = new ClientWindow(title, width, height, client);
 		keyboard = new KeyInput();
 		window.getCanvas().addKeyListener(keyboard);
-		client = new Client();
 		gameInfo = new GameInfo();
-		
-		try {
-			client.connect("localhost", 6666);
-			connected = true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			connected = false;
-		}
-		
 		
 	}
 	
@@ -58,6 +49,12 @@ public class Game implements Runnable {
 		//Load coordinates
 		try {
 			Msg coords = client.getMessage();
+			if(this.connected == false) {
+				this.connected = true;
+				errorMsg = true;
+				window.getChat().connected = true;
+			}
+			window.getChat().printToConsole(coords.getText());
 			gameInfo.setPlayer(0, new Dimension(coords.p1x, coords.p1y));
 			gameInfo.setPlayer(1, new Dimension(coords.p2x, coords.p2y));
 			if(coords.draw1) {
@@ -68,8 +65,12 @@ public class Game implements Runnable {
 				gameInfo.setBomb(1, new Dimension(coords.p2x, coords.p2y));
 				drawBombTwo = true;
 			}
-		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			this.connected = false;
+			window.getChat().connected = false;
+			if(errorMsg)
+				window.getChat().printToConsole("One of players has disconnected.\nTry to connect again.");
+			errorMsg = false;
 		}
 	}
 	
@@ -81,19 +82,27 @@ public class Game implements Runnable {
 		}
 		
 		g = bs.getDrawGraphics();
-		g.clearRect(0, 0, width, height);
 		
-		drawGame(g);
+		if(connected) {
+			g.clearRect(0, 0, width, height);
+			drawGame(g);
+			
+			bs.show();
+			g.dispose();
+		} else {
+			g.clearRect(0, 0, width, height);
+			bs.show();
+			g.dispose();
+		}
 		
-		bs.show();
-		g.dispose();
 	}
 	
 	private void send() { 
 		try {
 			client.sendMessage(new Msg(keyboard.left, keyboard.right, keyboard.up, keyboard.down, keyboard.space));
 		} catch (IOException e) {
-			e.printStackTrace();
+			this.connected = false;
+			window.getChat().connected = false;
 		}
 	}
 	
@@ -160,16 +169,17 @@ public class Game implements Runnable {
 			delta += (now - lastTime) / timePerTick;
 			lastTime = now;
 			
-			if(connected && delta >= 1) {
+			if(delta >= 1) {
 				tick();
 				render();
-				keyboard.update();
-				send();
-				delta--;
+				if(connected) {
+					keyboard.update();
+					send();
+					delta--;
+				}
 			}
-		}
-		
 		stop();
+		}
 	}
 	
 	public synchronized void start() {

@@ -11,14 +11,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import bomberman.client.Client;
-import bomberman.server.Msg;
+import bmbremaster.client.Client;
+import bmbremaster.server.Msg;
 
 public class Chat {
 	private JTextField messageField;
 	private static JTextArea textArea = new JTextArea();
 	private Client client;
 	private String nickname;
+	public boolean connected = false;
 	
 	public Chat(JPanel lpanel, Client client, String nickname) {
 		this.client = client;
@@ -64,7 +65,8 @@ public class Chat {
 
 	
 	public void printToConsole(String message) {
-		textArea.setText(textArea.getText() + message + "\n");
+		if(!message.isEmpty())
+			textArea.setText(textArea.getText() + message + "\n");
 	}
 	
 	private boolean isCommand(String message) {
@@ -79,8 +81,11 @@ public class Chat {
 				message = message.substring(message.indexOf(" ") + 1);
 				String ip = message.substring(0, message.indexOf(" "));
 				int port = Integer.parseInt(message.substring(message.indexOf(" ") + 1));
-				client.connect(ip, port);
-				printToConsole("Connected to: \n" + ip + ":" + port);
+				if(!connected) {
+					client.connect(ip, port);
+					printToConsole("Connected to: \n" + ip + ":" + port);
+				} else
+					printToConsole("Already connected.");
 			} catch(IOException e) {
 				printToConsole("Server not found.");
 			} catch(NumberFormatException | StringIndexOutOfBoundsException e1) {
