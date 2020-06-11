@@ -2,6 +2,7 @@ package bmbremaster.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.SocketException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +19,7 @@ public class Server {
     public void start(int port) {
     	try {
     	serverSocket = new ServerSocket(port);
+    	serverSocket.setSoTimeout(100);
     	indexID = 0;
     	running = true;
     	openForConnections = false;
@@ -42,8 +44,6 @@ public class Server {
     						System.out.println("Client connected. ID: " + indexID);
     						++indexID;
     					} catch(IOException e) {
-    						if(openForConnections)
-    							System.out.println("Couldnt connect client.");
     					}
     			
     				}

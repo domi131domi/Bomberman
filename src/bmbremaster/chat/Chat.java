@@ -103,7 +103,19 @@ public class Chat {
 			this.nickname = message;
 			printToConsole("Set name to: "+ message);
 		} else if(message.startsWith("/help")) {
-			printToConsole("Avaible commands:\n/help\n/connect [IPadress] [port]\n/disconnect\n/set name [nickname]");
+			printToConsole("Avaible commands:\n/help\n/connect [IPadress] [port]\n/disconnect\n/set name [nickname]\n/0 - connect to localhost");
+		} else if(message.startsWith("/0")) { 
+			try {
+				String ip = "localhost";
+				int port = 6666;
+				if(!connected) {
+					client.connect(ip, port);
+					printToConsole("Connected to: \n" + ip + ":" + port);
+				} else
+					printToConsole("Already connected.");
+			} catch(IOException e) {
+				printToConsole("Server not found.");
+			}
 		} else {
 			printToConsole("Unknown command. Check /help.");
 		}
