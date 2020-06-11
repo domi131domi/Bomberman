@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import bmbremaster.graphics.Assets;
 import bmbremaster.tiles.Tiles;
+import bmbremaster.tiles.players.Player;
 
 public class Bricks extends Tiles{
 	
@@ -30,6 +31,20 @@ public class Bricks extends Tiles{
 
 	public void setExists(boolean exists) {
 		this.exists = exists;
+	}
+
+	/*
+	@Override
+	public void onCollision(int x, int y, int sizeX, int sizeY) {
+		// TODO Auto-generated method stub
+		
+	}
+	*/
+
+	@Override
+	public void onCollision(Player player) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

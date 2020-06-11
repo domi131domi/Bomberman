@@ -11,31 +11,34 @@ public class Player extends Tiles{
 	public static final int PLAYER_SIZE_X = 58;
 	public static final int PLAYER_SIZE_Y = 58;
 	public static final int DEFAULT_HEALTH = 100;
+	public static final int DEFAULT_SPEED = 4;
 	
 	private int id;
 	private int health;
+	private int speed;
 	
 	public Player(int x, int y, int id ) {
 		super(x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y);
 		health = DEFAULT_HEALTH;
 		this.id = id;
+		speed = DEFAULT_SPEED;
 	}
 
 	public void tick( Msg keys ) {
 		if(keys.a) {
-			x -= 5;
+			x -= this.speed;
 			x = clamp(x, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
 		}
 		if(keys.d) {
-			x += 5;
+			x += this.speed;
 			x = clamp(x, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
 		}
 		if(keys.w) {
-			y -= 5;
+			y -= this.speed;
 			y = clamp(y, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
 		}
 		if(keys.s) {
-			y += 5;
+			y += this.speed;
 			y = clamp(y, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
 		}
 	}
@@ -67,6 +70,17 @@ public class Player extends Tiles{
 		this.health = health;
 	}
 
+	@Override
+	public void onCollision(Player player) {
+		
+	}
 
-	
+	public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
 }

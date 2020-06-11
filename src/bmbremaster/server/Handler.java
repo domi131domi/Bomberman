@@ -30,5 +30,9 @@ public class Handler {
 		objects.remove(object);
 	}
 	
+	public ArrayList<Tiles> getObjectsArray(){
+		return objects;
+	}
+	
 	
 }

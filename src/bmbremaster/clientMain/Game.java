@@ -1,6 +1,7 @@
 package bmbremaster.clientMain;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
@@ -9,6 +10,8 @@ import bmbremaster.client.Client;
 import bmbremaster.graphics.Assets;
 import bmbremaster.graphics.GameInfo;
 import bmbremaster.server.Msg;
+import bmbremaster.tiles.Tiles;
+import bmbremaster.tiles.blocks.Concrete;
 import bmbremaster.tiles.players.Player;
 
 public class Game implements Runnable {
@@ -26,6 +29,8 @@ public class Game implements Runnable {
 	
 	private int width, height;
 	private String title;
+	
+	private int i = 0;
 
 
 	public Game(String title, int width, int height) {
@@ -55,6 +60,11 @@ public class Game implements Runnable {
 			gameInfo.getPlayer(0).setY(coords.p1y);			
 			gameInfo.getPlayer(1).setX(coords.p2x);
 			gameInfo.getPlayer(1).setY(coords.p2y);
+			
+			for( Dimension cord : coords.getConcretes() ) {
+				gameInfo.addConcrete(i, new Concrete( cord.width, cord.height, Tiles.TILE_SIZE, Tiles.TILE_SIZE ));
+				i++;
+			}
 			
 		} catch (Exception e) {
 			this.connected = false;
@@ -115,20 +125,34 @@ public class Game implements Runnable {
 		g.drawImage( Assets.steelHorizontal, 10, 0, Assets.WIDTH - 20, 10, null );
 		g.drawImage( Assets.steelHorizontal, 10, Assets.HEIGHT - 10, Assets.WIDTH - 20, 10, null );
 		
+		/*
 		int y = 60;
-		for( int i = 0; i < 13; i+=2 ) {
+		for( int i = 0; i < 13; i++ ) {
 			int j = 0;
 			while( j < 13 ) {
-				g.drawImage( Assets.concrete, i * y + 10 , j * y + 10, null );
-				if( (j == 0 || j == 12) && i != 12 ) {
+				if( i == 0 || i == 12 )
+					g.drawImage( Assets.concrete, i * y + 10 , j * y + 10, null );
+				if( (j == 0 || j == 12) && i != 12 ) 
 					g.drawImage( Assets.concrete, (i+1) * y + 10 , j * y + 10, null );
-				}
+				
 				if( i == 0 || i == 12 )
 					j++;
 				else 
 					j+=2;
 			}
 		}
+		*/
+		
+		/*
+		for( Concrete current : gameInfo.getConcretes() ) {
+			current.render(g);
+		}
+		*/
+		/*
+		for( int j = 0; j < i; j ++ ) {
+			gameInfo.getConcretes()[j].render(g);
+		}
+		*/
 		
 		gameInfo.getPlayer(0).render(g);
 		gameInfo.getPlayer(1).render(g);
@@ -138,7 +162,7 @@ public class Game implements Runnable {
 	public void run() {
 		init();
 		
-		int fps = 60;
+		int fps = 120;
 		double timePerTick = 1000000000 / fps;	//nanoseconds
 		double delta = 0;
 		long now;

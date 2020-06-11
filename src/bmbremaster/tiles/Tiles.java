@@ -2,6 +2,8 @@ package bmbremaster.tiles;
 
 import java.awt.Graphics;
 
+import bmbremaster.tiles.players.Player;
+
 public abstract class Tiles {
 
 	public static final int TILE_SIZE = 60;
@@ -18,6 +20,20 @@ public abstract class Tiles {
 	
 	public abstract void tick();
 	public abstract void render(Graphics g);
+	public abstract void onCollision( Player player );
+	
+	public int[] isCollision(int x, int y , int sizeX, int sizeY) {
+		int [] collisions = new int[4];
+		if ( x + sizeX > this.x && x + sizeX/2 <= this.x + this.width/2 )
+			collisions[0] = 1; 	//left
+		if ( x < this.x + this.width && x + sizeX/2 > this.x + this.width/2 )
+			collisions[1] = 1;	//right
+		if ( y + sizeY > this.y && y + sizeY/2 <= this.y + this.height/2 )
+			collisions[2] = 1;	//up
+		if ( y < this.y + this.height && y + sizeY/2 > this.y + this.height/2 )
+			collisions[3] = 1;	//down
+		return collisions;
+	}
 
 	public int getWidth() {
 		return width;
@@ -35,7 +51,7 @@ public abstract class Tiles {
 		this.height = height;
 	}
 
-	public float getX() {
+	public int getX() {
 		return x;
 	}
 
@@ -43,7 +59,7 @@ public abstract class Tiles {
 		this.x = x;
 	}
 
-	public float getY() {
+	public int getY() {
 		return y;
 	}
 

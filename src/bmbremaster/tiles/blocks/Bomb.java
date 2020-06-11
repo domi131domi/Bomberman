@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import bmbremaster.graphics.Assets;
 import bmbremaster.tiles.Tiles;
+import bmbremaster.tiles.players.Player;
 
 public class Bomb extends Tiles {
 	
@@ -32,6 +33,19 @@ public class Bomb extends Tiles {
 
 	public void setTimeLeft(float timeLeft) {
 		this.timeLeft = timeLeft;
+	}
+/*
+	@Override
+	public void onCollision(int x, int y, int sizeX, int sizeY) {
+		// TODO Auto-generated method stub
+		
+	}
+	*/
+
+	@Override
+	public void onCollision(Player player) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
