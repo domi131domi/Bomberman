@@ -9,8 +9,8 @@ public class GameInfo {
 	private ArrayList<Dimension> bombs = new ArrayList<Dimension>();
 	//--------
 	public GameInfo() {
-		players.add(new Dimension(0,0));
-		players.add(new Dimension(0,0));
+		players.add(new Dimension(0, 0));
+		players.add(new Dimension(0, 0));
 		addBomb(new Dimension(0,0));
 		addBomb(new Dimension(0,0));
 		//--------
