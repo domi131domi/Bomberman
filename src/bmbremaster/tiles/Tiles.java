@@ -24,6 +24,8 @@ public abstract class Tiles {
 	
 	public int[] isCollision(int x, int y , int sizeX, int sizeY) {
 		int [] collisions = new int[4];
+		if( x + sizeX <= this.x || x >= this.x + this.width || y + sizeY <= this.y || y >= this.y + this.height )
+			return collisions;
 		if ( x + sizeX > this.x && x + sizeX/2 <= this.x + this.width/2 )
 			collisions[0] = 1; 	//left
 		if ( x < this.x + this.width && x + sizeX/2 > this.x + this.width/2 )

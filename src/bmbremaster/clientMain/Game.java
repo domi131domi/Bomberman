@@ -29,8 +29,7 @@ public class Game implements Runnable {
 	
 	private int width, height;
 	private String title;
-	
-	private int i = 0;
+	private int numberOfConcretes = 0;
 
 
 	public Game(String title, int width, int height) {
@@ -61,9 +60,11 @@ public class Game implements Runnable {
 			gameInfo.getPlayer(1).setX(coords.p2x);
 			gameInfo.getPlayer(1).setY(coords.p2y);
 			
+			numberOfConcretes = 0;
+			int iterator = coords.getConcretes().size();
 			for( Dimension cord : coords.getConcretes() ) {
-				gameInfo.addConcrete(i, new Concrete( cord.width, cord.height, Tiles.TILE_SIZE, Tiles.TILE_SIZE ));
-				i++;
+				gameInfo.addConcrete(new Concrete( cord.width, cord.height, Tiles.TILE_SIZE, Tiles.TILE_SIZE ));
+				numberOfConcretes++;
 			}
 			
 		} catch (Exception e) {
@@ -125,34 +126,27 @@ public class Game implements Runnable {
 		g.drawImage( Assets.steelHorizontal, 10, 0, Assets.WIDTH - 20, 10, null );
 		g.drawImage( Assets.steelHorizontal, 10, Assets.HEIGHT - 10, Assets.WIDTH - 20, 10, null );
 		
-		/*
-		int y = 60;
-		for( int i = 0; i < 13; i++ ) {
-			int j = 0;
-			while( j < 13 ) {
-				if( i == 0 || i == 12 )
-					g.drawImage( Assets.concrete, i * y + 10 , j * y + 10, null );
-				if( (j == 0 || j == 12) && i != 12 ) 
-					g.drawImage( Assets.concrete, (i+1) * y + 10 , j * y + 10, null );
-				
-				if( i == 0 || i == 12 )
-					j++;
-				else 
-					j+=2;
-			}
-		}
-		*/
+		//wallz
+		int y = Tiles.TILE_SIZE;
+        for( int i = 0; i < 13; i++ ) {
+            int j = 0;
+            while( j < 13 ) {
+                if( i == 0  || i == 12 )
+                    g.drawImage( Assets.concrete, i * y + 10 , j * y + 10, null );
+                if( (j == 0 || j == 12) && i != 12 ) 
+                    g.drawImage( Assets.concrete, (i+1) * y + 10 , j * y + 10, null );
+                if( i == 0 || i == 12 )
+                    j++;
+                else 
+                    j+=2;
+            }
+        }
 		
-		/*
-		for( Concrete current : gameInfo.getConcretes() ) {
-			current.render(g);
+	
+		for( int j = 0; j < numberOfConcretes; j ++ ) {
+			gameInfo.getConcrete(j).render(g);
 		}
-		*/
-		/*
-		for( int j = 0; j < i; j ++ ) {
-			gameInfo.getConcretes()[j].render(g);
-		}
-		*/
+		
 		
 		gameInfo.getPlayer(0).render(g);
 		gameInfo.getPlayer(1).render(g);

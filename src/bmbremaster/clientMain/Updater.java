@@ -128,22 +128,19 @@ public class Updater implements Runnable {
 		setKeys(0);
 		player1.tick( keys );
 		setKeys(1);	
-		player2.tick( keys );	
+		player2.tick( keys );
+		for(Tiles object : handler.getObjectsArray()) {
+			object.onCollision(player1);
+			object.onCollision(player2);
+		}
 	}
 	
 	public void initMap() {
 		
 		int y = Tiles.TILE_SIZE;
-		for( int i = 1; i < 12; i+=2 ) {
-			for( int j = 1; j < 12; j += 2) {
+		for( int i = 2; i < 11; i+=2 ) {
+			for( int j = 2; j < 11; j += 2) {
 				handler.addObject( new Concrete( i*y + 10, j*y + 10, Tiles.TILE_SIZE, Tiles.TILE_SIZE) );
-				//if( (j == 0 || j == 12) && i != 12 ) {
-				//	handler.addObject( new Concrete( (i+1)*y + 10, j*y + 10, Tiles.TILE_SIZE, Tiles.TILE_SIZE) );
-				//}
-				//if( i == 0 || i == 12 )
-				//	j++;
-				//else 
-				//	j+=2;
 			}
 		}
 	}

@@ -9,8 +9,7 @@ public class GameInfo {
 	
 	private ArrayList<Player> players = new ArrayList<Player>();
 	//private ArrayList<Dimension> bombs = new ArrayList<Dimension>();
-	private Concrete[] concretes = new Concrete[30];
-	//private LinkedList<Concrete> concretes = new LinkedList<Concrete>();
+	private ArrayList<Concrete> concretes = new ArrayList<Concrete>();
 
 	/*
 	public void setBomb(int number, Dimension coords) {
@@ -33,19 +32,17 @@ public class GameInfo {
 		players.add( player );
 	}
 	
-	public Concrete[] getConcretes( ) {
+	public ArrayList<Concrete> getConcretes( ) {
 		return concretes;
 	}
 	
-	public void addConcrete( int number,  Concrete concrete ) {
-		concretes[number] = concrete;
-	}
-	
-	/*
 	public void addConcrete( Concrete concrete ) {
 		concretes.add( concrete );
 	}
-	*/
+	
+	public Concrete getConcrete(int number) {
+		return concretes.get(number);
+	}
 
 	//-----------
 }
