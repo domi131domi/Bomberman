@@ -1,5 +1,7 @@
 package bmbremaster.clientMain;
 
+import java.util.Set;
+
 import bmbremaster.graphics.Assets;
 import bmbremaster.server.Msg;
 import bmbremaster.server.Server;
@@ -14,17 +16,29 @@ public class Updater implements Runnable {
 	private  boolean drawBomb1, drawBomb2;
 	private String textMsg = "";
 	private int port = 6666, numberOfPlayers = 2;
+	private Set<Integer> IDs;
+	private int player1_id = -1, player2_id = -1;
 	
 	public void run() {
 		
 		server.start(port);
 		waitForPlayers(numberOfPlayers);
-		
+		setIDs();	
 		
 		while(true) {
-			server.broadcast(new Msg(x1, y1, x2, y2, drawBomb1, drawBomb2, textMsg), true);
-			textMsg = "";
-			tick();
+			if(server.getNumberOfClients() == numberOfPlayers) {
+				try {
+				server.broadcast(new Msg(x1, y1, x2, y2, drawBomb1, drawBomb2, textMsg), true);
+				textMsg = "";
+				tick();
+				} catch(Exception e) {			
+				}
+			} else {
+				server.stop();
+				server.start(port);
+				waitForPlayers(numberOfPlayers);
+				setIDs();
+			}
 		}
 	}
 	
@@ -47,6 +61,16 @@ public class Updater implements Runnable {
 		}
 	}
 	
+	private void setIDs() {
+		IDs = server.getIDs();
+		for(int id : IDs) {
+			if(player1_id == -1)
+				player1_id = id;
+			else
+				player2_id = id;
+		}
+	}
+	
 	private void waitForPlayers(int number) {
 		server.listenForClients();
 		while(server.getNumberOfClients() != number) {
@@ -60,15 +84,21 @@ public class Updater implements Runnable {
 	}
 	
 	private void setKeys(int number) {
+		int id;
+		if(number == 0)
+			id = player1_id;
+		else if(number == 1)
+			id = player2_id;
+		else 
+			return;
 		try {
-			msg = server.getMessage(number, true);
+			msg = server.getMessage(id, true);
 			while(msg.isTextMsg()) {
 				textMsg += msg.getText();
-				msg = server.getMessage(number, true);
+				msg = server.getMessage(id, true);
 			}
 			keys = msg;
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
 		}
 	}
 	
