@@ -82,6 +82,7 @@ public class Game implements Runnable {
 		
 		g = bs.getDrawGraphics();
 		g.clearRect(0, 0, width, height);
+		
 		drawGame(g);
 		
 		bs.show();
@@ -105,21 +106,30 @@ public class Game implements Runnable {
 		//draw grass background
 		g.setColor(new Color(0x54DC35));
 		g.fillRect(0, 0, 800, 800);
-		//
 		
+		//steel edges
+		g.drawImage( Assets.steelVer, 0, 0, 10, Assets.HEIGHT, null );
+		g.drawImage( Assets.steelVer, Assets.WIDTH - 10, 0, 10, Assets.HEIGHT, null );
+		g.drawImage( Assets.steelHor, 10, 0, Assets.WIDTH - 20, 10, null );
+		g.drawImage( Assets.steelHor, 10, Assets.HEIGHT - 10, Assets.WIDTH - 20, 10, null );
+		
+		
+		//border concrete blocks - dont need to be objects checked by handler
 		int y = 60;
-		
 		for( int i = 0; i < 13; i+=2 ) {
 			int j = 0;
 			while( j < 13 ) {
-				g.drawImage( Assets.block, i * y + 10 , j * y + 10, null );
+				g.drawImage( Assets.concrete, i * y + 10 , j * y + 10, null );
+				if((j == 0 || j == 12) && i != 12 ) {
+					g.drawImage( Assets.concrete, (i+1) * y + 10 , j * y + 10, null );
+				}
 				if( i == 0 || i == 12 )
 					j++;
 				else 
 					j+=2;
 			}
 		}
-		//
+
 		g.drawImage( Assets.player1, gameInfo.getPlayer(0).width, gameInfo.getPlayer(0).height, null );
 		g.drawImage( Assets.player2, gameInfo.getPlayer(1).width, gameInfo.getPlayer(1).height, null );
 		
@@ -144,13 +154,10 @@ public class Game implements Runnable {
 		double delta = 0;
 		long now;
 		long lastTime = System.nanoTime();
-		//long timer = 0;
-		//long ticks = 0;
 		
 		while(running) {
 			now = System.nanoTime();
 			delta += (now - lastTime) / timePerTick;
-			//timer += now - lastTime;
 			lastTime = now;
 			
 			if(connected && delta >= 1) {
@@ -158,14 +165,8 @@ public class Game implements Runnable {
 				render();
 				keyboard.update();
 				send();
-				//ticks++;
 				delta--;
 			}
-			//if(timer >= 1000000000) {
-			//	System.out.println("Ticks and frames: " + ticks);
-			//	ticks = 0;
-			//	timer = 0;
-			//}
 		}
 		
 		stop();

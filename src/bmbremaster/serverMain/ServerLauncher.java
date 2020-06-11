@@ -1,8 +1,8 @@
 package bmbremaster.serverMain;
 
-import bmbremaster.graphics.Assets;
 import bmbremaster.server.Msg;
 import bmbremaster.server.Server;
+import bmbremaster.tiles.Tiles;
 
 public class ServerLauncher {
 	
@@ -25,19 +25,19 @@ public class ServerLauncher {
 				keys = server.getMessage(1, true);
 				if(keys.a) {
 					x2 -= 5;
-					x2 = clamp(x2, 10 + Assets.tileSize, 800 - Assets.tileSize*2 - 10);
+					x2 = clamp(x2, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
 				}
 				if(keys.d) {
 					x2 += 5;
-					x2 = clamp(x2, 10 + Assets.tileSize, 800 - Assets.tileSize*2 - 10);
+					x2 = clamp(x2, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
 				}
 				if(keys.w) {
 					y2 -= 5;
-					y2 = clamp(y2, 10 + Assets.tileSize, 800 - Assets.tileSize*2 - 10);
+					y2 = clamp(y2, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
 				}
 				if(keys.s) {
 					y2 += 5;
-					y2 = clamp(y2, 10 + Assets.tileSize, 800 - Assets.tileSize*2 - 10);
+					y2 = clamp(y2, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
 				}
 				if(keys.space) 
 					drawBomb2 = true;
@@ -68,19 +68,19 @@ public class ServerLauncher {
 			keys = server.getMessage(number, true);
 			if(keys.a) {
 				x1 -= 5;
-				x1 = clamp(x1, 10 + Assets.tileSize, 800 - Assets.tileSize*2 - 10);
+				x1 = clamp(x1, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
 			}
 			if(keys.d) {
 				x1 += 5;
-				x1 = clamp(x1, 10 + Assets.tileSize, 800 - Assets.tileSize*2 - 10);
+				x1 = clamp(x1, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
 			}
 			if(keys.w) {
 				y1 -= 5;
-				y1 = clamp(y1, 10 + Assets.tileSize, 800 - Assets.tileSize*2 - 10);
+				y1 = clamp(y1, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
 			}
 			if(keys.s) {
 				y1 += 5;
-				y1 = clamp(y1, 10 + Assets.tileSize, 800 - Assets.tileSize*2 - 10);
+				y1 = clamp(y1, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
 			}
 			if(keys.space) 
 				drawBomb1 = true;
