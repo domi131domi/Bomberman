@@ -9,6 +9,7 @@ import bmbremaster.client.Client;
 import bmbremaster.graphics.Assets;
 import bmbremaster.graphics.GameInfo;
 import bmbremaster.server.Msg;
+import bmbremaster.tiles.players.Player;
 
 public class Game implements Runnable {
 	
@@ -40,9 +41,10 @@ public class Game implements Runnable {
 	}
 	
 	private void tick() {
+		Msg coords = new Msg();
 		//Load coordinates
 		try {
-			Msg coords = client.getMessage();
+			coords = client.getMessage();
 			if(this.connected == false) {
 				this.connected = true;
 				errorMsg = true;
@@ -53,18 +55,6 @@ public class Game implements Runnable {
 			gameInfo.getPlayer(0).setY(coords.p1y);			
 			gameInfo.getPlayer(1).setX(coords.p2x);
 			gameInfo.getPlayer(1).setY(coords.p2y);
-			/*
-			if(coords.draw1) {
-				gameInfo.setBomb(0, new Dimension(coords.p1x, coords.p1y));
-				drawBombOne = true;
-			}
-			if(coords.draw2) {
-				gameInfo.setBomb(1, new Dimension(coords.p2x, coords.p2y));
-				drawBombTwo = true;
-			}
-			*/
-			
-			//handler.tick();
 			
 		} catch (Exception e) {
 			this.connected = false;
@@ -73,6 +63,7 @@ public class Game implements Runnable {
 				window.getChat().printToConsole("One of players has disconnected.\nTry to connect again.");
 			errorMsg = false;
 		}
+		
 	}
 	
 	private void render() {
@@ -99,7 +90,7 @@ public class Game implements Runnable {
 	
 	private void send() { 
 		try {
-			client.sendMessage(new Msg(keyboard.left, keyboard.right, keyboard.up, keyboard.down, keyboard.space));
+			client.sendMessage(new Msg(keyboard.left, keyboard.right, keyboard.up, keyboard.down, keyboard.space));	
 		} catch (IOException e) {
 			this.connected = false;
 			window.getChat().connected = false;
@@ -108,8 +99,8 @@ public class Game implements Runnable {
 	
 	private void init() {
 		Assets.init();
-		//handler.addObject( new Player( 10 + Tiles.TILE_SIZE, 10 + Tiles.TILE_SIZE, 0 ) );
-		//handler.addObject( new Player( Assets.WIDTH - 10 - Tiles.TILE_SIZE*2, Assets.HEIGHT - 10 - Tiles.TILE_SIZE*2, 1 ) );
+		gameInfo.addPlayer(new Player(0,0,0));
+		gameInfo.addPlayer(new Player(0,0,1));
 	}
 	
 	private void drawGame(Graphics g) {
@@ -139,16 +130,9 @@ public class Game implements Runnable {
 			}
 		}
 		
-		
-		//
-		//g.drawImage( Assets.player1, gameInfo.getPlayer(0).width, gameInfo.getPlayer(0).height, null );
-		
 		gameInfo.getPlayer(0).render(g);
 		gameInfo.getPlayer(1).render(g);
 		
-		//g.drawImage( Assets.player2, gameInfo.getPlayer(1).width, gameInfo.getPlayer(1).height, null );
-		
-
 	}
 	
 	public void run() {
@@ -205,5 +189,9 @@ public class Game implements Runnable {
 		} catch(InterruptedException e ) {
 			e.printStackTrace();
 		}
+	}
+	
+	public String getTitle() {
+		return title;
 	}
 }

@@ -2,7 +2,6 @@ package bmbremaster.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.SocketException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;

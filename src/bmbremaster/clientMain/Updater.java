@@ -3,7 +3,7 @@ package bmbremaster.clientMain;
 import java.util.Set;
 
 import bmbremaster.graphics.Assets;
-import bmbremaster.server.Handler;
+//import bmbremaster.server.Handler;
 import bmbremaster.server.Msg;
 import bmbremaster.server.Server;
 import bmbremaster.tiles.Tiles;
@@ -13,13 +13,12 @@ public class Updater implements Runnable {
 	private boolean running = false;
 	private Thread thread;
 	
-	private Handler handler = new Handler();
+	//private Handler handler = new Handler();
 	private Player player1;
 	private Player player2;
 	
 	private  Server server = new Server();
 	private  Msg keys, msg;
-	private  int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
 	private  boolean drawBomb1, drawBomb2;
 	private String textMsg = "";
 	private int port = 6666, numberOfPlayers = 2;
@@ -38,7 +37,7 @@ public class Updater implements Runnable {
 		while(true) {
 			if(server.getNumberOfClients() == numberOfPlayers) {
 				try {
-				server.broadcast(new Msg(x1, y1, x2, y2, drawBomb1, drawBomb2, textMsg), true);
+				server.broadcast(new Msg((int) player1.getX(), (int) player1.getY(), (int) player2.getX(), (int) player2.getY(), drawBomb1, drawBomb2, textMsg), true);
 				textMsg = "";
 				tick();
 				} catch(Exception e) {			
@@ -114,63 +113,9 @@ public class Updater implements Runnable {
 	
 	private void tick() {
 		setKeys(0);
-		
 		player1.tick( keys );
-		
-		/*
-		if(keys.a) {
-			x1 -= 5;
-			x1 = clamp(x1, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
-		}
-		if(keys.d) {
-			x1 += 5;
-			x1 = clamp(x1, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
-		}
-		if(keys.w) {
-			y1 -= 5;
-			y1 = clamp(y1, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
-		}
-		if(keys.s) {
-			y1 += 5;
-			y1 = clamp(y1, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
-		}
-		if(keys.space) 
-			drawBomb1 = true;
-		else 
-			drawBomb1 = false;
-			*/
-		
-		
-		
-		setKeys(1);
-		
-		player2.tick( keys );
-		
-		/*
-		if(keys.a) {
-			x2 -= 5;
-			x2 = clamp(x2, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
-		}
-		if(keys.d) {
-			x2 += 5;
-			x2 = clamp(x2, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
-		}
-		if(keys.w) {
-			y2 -= 5;
-			y2 = clamp(y2, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
-		}
-		if(keys.s) {
-			y2 += 5;
-			y2 = clamp(y2, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
-		}
-		if(keys.space) 
-			drawBomb2 = true;
-		else 
-			drawBomb2 = false;
-			*/
-		
-		
-		
+		setKeys(1);	
+		player2.tick( keys );	
 	}
 	
 }
