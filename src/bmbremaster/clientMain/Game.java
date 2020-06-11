@@ -6,11 +6,17 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
 
-import bmbremaster.server.Msg;
 import bmbremaster.client.Client;
+import bmbremaster.graphics.Assets;
 import bmbremaster.graphics.GameInfo;
+import bmbremaster.server.Msg;
 
 public class Game implements Runnable {
+	
+	//temporary solution
+	private boolean drawBombOne = false;
+	private boolean drawBombTwo = false;
+	//end of temp sol
 	
 	private ClientWindow window;
 	private Thread thread;
@@ -25,8 +31,7 @@ public class Game implements Runnable {
 	
 	private int width, height;
 	private String title;
-	private final int playerSizeX = 50;
-	private final int playerSizeY = 50;
+
 
 	public Game(String title, int width, int height) {
 		this.width = width;
@@ -55,6 +60,14 @@ public class Game implements Runnable {
 			Msg coords = client.getMessage();
 			gameInfo.setPlayer(0, new Dimension(coords.p1x, coords.p1y));
 			gameInfo.setPlayer(1, new Dimension(coords.p2x, coords.p2y));
+			if(coords.draw1) {
+				gameInfo.setBomb(0, new Dimension(coords.p1x, coords.p1y));
+				drawBombOne = true;
+			}
+			if(coords.draw2) {
+				gameInfo.setBomb(1, new Dimension(coords.p2x, coords.p2y));
+				drawBombTwo = true;
+			}
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
@@ -77,35 +90,82 @@ public class Game implements Runnable {
 	
 	private void send() { 
 		try {
-			client.sendMessage(new Msg(keyboard.left, keyboard.right, keyboard.up, keyboard.down));
+			client.sendMessage(new Msg(keyboard.left, keyboard.right, keyboard.up, keyboard.down, keyboard.space));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	private void init() {
-		
+		Assets.init();
 	}
 	
 	private void drawGame(Graphics g) {
-		//draw players
-		g.setColor(Color.BLUE);
-		g.fillRect(gameInfo.getPlayer(0).width,gameInfo.getPlayer(0).height, playerSizeX, playerSizeY);
 		
-		g.setColor(Color.RED);
-		g.fillRect(gameInfo.getPlayer(1).width,gameInfo.getPlayer(1).height, playerSizeX, playerSizeY);
+		//draw grass background
+		g.setColor(new Color(0x54DC35));
+		g.fillRect(0, 0, 800, 800);
+		//
+		
+		int y = 60;
+		
+		for( int i = 0; i < 13; i+=2 ) {
+			int j = 0;
+			while( j < 13 ) {
+				g.drawImage( Assets.block, i * y + 10 , j * y + 10, null );
+				if( i == 0 || i == 12 )
+					j++;
+				else 
+					j+=2;
+			}
+		}
+		//
+		g.drawImage( Assets.player1, gameInfo.getPlayer(0).width, gameInfo.getPlayer(0).height, null );
+		g.drawImage( Assets.player2, gameInfo.getPlayer(1).width, gameInfo.getPlayer(1).height, null );
+		
+		if(drawBombOne) {
+			System.out.println("zara narysuje bombeee1");
+			g.drawImage(Assets.bomb, gameInfo.getBomb(0).width, gameInfo.getBomb(0).height, null);
+			drawBombOne = false;
+		}
+		if(drawBombTwo) {
+			System.out.println("zara narysuje bombeee2");
+			g.drawImage(Assets.bomb, gameInfo.getBomb(1).width, gameInfo.getBomb(1).height, null);
+			drawBombTwo = false;
+		}
+
 	}
 	
 	public void run() {
 		init();
 		
+		int fps = 60;
+		double timePerTick = 1000000000 / fps;	//nanoseconds
+		double delta = 0;
+		long now;
+		long lastTime = System.nanoTime();
+		//long timer = 0;
+		//long ticks = 0;
+		
 		while(running) {
-			if(connected) {
-			tick();
-			render();
-			keyboard.update();
-			send();
+			now = System.nanoTime();
+			delta += (now - lastTime) / timePerTick;
+			//timer += now - lastTime;
+			lastTime = now;
+			
+			if(connected && delta >= 1) {
+				tick();
+				render();
+				keyboard.update();
+				send();
+				//ticks++;
+				delta--;
 			}
+			//if(timer >= 1000000000) {
+			//	System.out.println("Ticks and frames: " + ticks);
+			//	ticks = 0;
+			//	timer = 0;
+			//}
 		}
 		
 		stop();

@@ -21,14 +21,12 @@ public class KeyInput implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		keys[e.getKeyCode()] = true;
-		
+		keys[e.getKeyCode()] = true;	
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		keys[e.getKeyCode()] = false;
-		
+		keys[e.getKeyCode()] = false;	
 	}
 
 }

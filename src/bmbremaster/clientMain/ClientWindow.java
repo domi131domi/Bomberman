@@ -2,7 +2,6 @@ package bmbremaster.clientMain;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
