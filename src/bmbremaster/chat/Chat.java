@@ -19,6 +19,7 @@ public class Chat {
 	private static JTextArea textArea = new JTextArea();
 	private Client client;
 	private String nickname;
+	public boolean connected = false;
 	
 	public Chat(JPanel lpanel, Client client, String nickname) {
 		this.client = client;
@@ -80,8 +81,11 @@ public class Chat {
 				message = message.substring(message.indexOf(" ") + 1);
 				String ip = message.substring(0, message.indexOf(" "));
 				int port = Integer.parseInt(message.substring(message.indexOf(" ") + 1));
-				client.connect(ip, port);
-				printToConsole("Connected to: \n" + ip + ":" + port);
+				if(!connected) {
+					client.connect(ip, port);
+					printToConsole("Connected to: \n" + ip + ":" + port);
+				} else
+					printToConsole("Already connected.");
 			} catch(IOException e) {
 				printToConsole("Server not found.");
 			} catch(NumberFormatException | StringIndexOutOfBoundsException e1) {

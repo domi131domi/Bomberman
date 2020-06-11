@@ -10,7 +10,7 @@ import bmbremaster.server.ClientInfo;
 public class Server {
 	private ServerSocket serverSocket;
 	private HashMap<Integer, ClientInfo> clients = new HashMap<Integer, ClientInfo>();
-	Set<Integer> IDs = new HashSet<Integer>();
+	private Set<Integer> IDs = new HashSet<Integer>();
 	private boolean running = false;
 	private boolean openForConnections, closeForConnections;
     private int indexID;
@@ -25,7 +25,6 @@ public class Server {
     	System.out.println("Server Started on port: " + port);
     	} catch(IOException e) {
     		System.out.println("Couldnt start server");
-    		e.printStackTrace();
     	}
     }
     
@@ -48,8 +47,8 @@ public class Server {
     					}
     			
     				}
-    		    	System.out.println("Server doesnt wait for connetions anymore.");
-    				closeForConnections = true;
+    	    		System.out.println("Server doesnt wait for connetions anymore.");
+    	    		closeForConnections = true;
     			}
     		}; listenThread.start();
     	}
@@ -78,7 +77,6 @@ public class Server {
     		System.out.println("Server stopped.");
     	} catch(IOException e) {
     		System.out.println("Couldnt close server.");
-    		e.printStackTrace();
     	}
     }
     
@@ -127,5 +125,9 @@ public class Server {
 				System.out.println("Timeout. ID: " + ID);
     	}
     	return null;
-    }  
+    } 
+   
+    public Set<Integer> getIDs() {
+    	return this.IDs;
+    }
 }
