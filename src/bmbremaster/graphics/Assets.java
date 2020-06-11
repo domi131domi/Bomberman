@@ -2,19 +2,23 @@ package bmbremaster.graphics;
 
 import java.awt.image.BufferedImage;
 
+import bmbremaster.tiles.Tiles;
+
 public class Assets {
-	public static final int playerSizeX = 60;
-	public static final int playerSizeY = 60;
-	public static final int tileSize = 60;
-	public static BufferedImage player1, player2, bomb, bricks, block;
+	
+	public static final int WIDTH = 800, HEIGHT = 800;
+	
+	public static BufferedImage player1, player2, bomb, bricks, concrete, steelVertical, steelHorizontal;
 	
 	public static void init() {
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/textures_vol2.png"));
 		
-		player1 = sheet.crop(0, 0, playerSizeX, playerSizeY);
-		player2 = sheet.crop(playerSizeX, 0, playerSizeX, playerSizeY);
-		bomb = sheet.crop(playerSizeX*2, 0, playerSizeX, playerSizeY);
-		bricks = sheet.crop(0, playerSizeY, playerSizeX, playerSizeY);
-		block = sheet.crop(playerSizeX, playerSizeY, playerSizeX, playerSizeY);
+		player1 = sheet.crop(0, 0, Tiles.TILE_SIZE, Tiles.TILE_SIZE);
+		player2 = sheet.crop(Tiles.TILE_SIZE, 0, Tiles.TILE_SIZE, Tiles.TILE_SIZE);
+		bomb = sheet.crop(Tiles.TILE_SIZE*2, 0, Tiles.TILE_SIZE, Tiles.TILE_SIZE);
+		bricks = sheet.crop(0, Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE);
+		concrete = sheet.crop(Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE);
+		steelVertical = sheet.crop(Tiles.TILE_SIZE*2, Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE);
+		steelHorizontal = sheet.crop(Tiles.TILE_SIZE*2, Tiles.TILE_SIZE*2, Tiles.TILE_SIZE, Tiles.TILE_SIZE);
 	}
 }

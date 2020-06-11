@@ -3,6 +3,7 @@ package bmbremaster.tiles.players;
 import java.awt.Graphics;
 
 import bmbremaster.graphics.Assets;
+import bmbremaster.server.Handler;
 import bmbremaster.tiles.Tiles;
 
 public class Player extends Tiles{
@@ -14,8 +15,8 @@ public class Player extends Tiles{
 	private int id;
 	private int health;
 
-	public Player(float x, float y, int id ) {
-		super(x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y);
+	public Player( Handler handler, float x, float y, int id ) {
+		super(handler, x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y);
 		health = DEFAULT_HEALTH;
 		this.id = id;
 	}

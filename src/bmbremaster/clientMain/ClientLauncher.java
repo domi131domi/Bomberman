@@ -1,11 +1,11 @@
 package bmbremaster.clientMain;
 
-public class ClientLauncher {
-	
-	public static final int WIDTH = 800, HEIGHT = 800;
+import bmbremaster.graphics.Assets;
+
+public class ClientLauncher {	
 
 	public static void main(String[] args) {
-		Game game = new Game("Bomberman", WIDTH, HEIGHT);
+		Game game = new Game("Bomberman", Assets.WIDTH, Assets.HEIGHT);
 		game.start();
 	}
 

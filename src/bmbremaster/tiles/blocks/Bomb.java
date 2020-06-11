@@ -3,6 +3,7 @@ package bmbremaster.tiles.blocks;
 import java.awt.Graphics;
 
 import bmbremaster.graphics.Assets;
+import bmbremaster.server.Handler;
 import bmbremaster.tiles.Tiles;
 
 public class Bomb extends Tiles {
@@ -11,8 +12,8 @@ public class Bomb extends Tiles {
 	
 	private float timeLeft;
 
-	public Bomb(float x, float y, int width, int height) {
-		super(x, y, width, height);
+	public Bomb(Handler handler, float x, float y, int width, int height) {
+		super(handler, x, y, width, height);
 		timeLeft = DEFAULT_TIME;
 	}
 
