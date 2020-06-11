@@ -9,12 +9,15 @@ public class Msg implements Serializable{
 	public boolean draw1, draw2;
 	//
 	public boolean a,d,w,s,space;
+	//
+	private String text = "";
+	private boolean isTextMsg = false;
 	
 	public Msg() {
 		
 	}
 	
-	public Msg(int p1x, int p1y, int p2x, int p2y, boolean draw1, boolean draw2 ) {
+	public Msg(int p1x, int p1y, int p2x, int p2y, boolean draw1, boolean draw2, String text) {
 		this.p1x = p1x;
 		this.p2x = p2x;
 		this.p1y = p1y;
@@ -22,6 +25,8 @@ public class Msg implements Serializable{
 		//
 		this.draw1 = draw1;
 		this.draw2 = draw2;
+		
+		this.text = text;
 	}
 	
 	public Msg(boolean a, boolean d, boolean w, boolean s, boolean space) {
@@ -29,8 +34,21 @@ public class Msg implements Serializable{
 		this.d = d;
 		this.w = w;
 		this.s = s;
-		//
 		this.space = space;
+		this.isTextMsg = false;
+	}
+	
+	public Msg(String text) {
+		this.text = text;
+		this.isTextMsg = true;
+	}
+	
+	public String getText() {
+		return text;
+	}
+	
+	public boolean isTextMsg() {
+		return isTextMsg;
 	}
 	
 }

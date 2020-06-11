@@ -11,8 +11,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import bomberman.client.Client;
-import bomberman.server.Msg;
+import bmbremaster.client.Client;
+import bmbremaster.server.Msg;
 
 public class Chat {
 	private JTextField messageField;
@@ -64,7 +64,8 @@ public class Chat {
 
 	
 	public void printToConsole(String message) {
-		textArea.setText(textArea.getText() + message + "\n");
+		if(!message.isEmpty())
+			textArea.setText(textArea.getText() + message + "\n");
 	}
 	
 	private boolean isCommand(String message) {

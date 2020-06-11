@@ -37,20 +37,11 @@ public class Game implements Runnable {
 		this.width = width;
 		this.height = height;
 		this.title = title;
-		window = new ClientWindow(title, width, height);
+		client = new Client();
+		window = new ClientWindow(title, width, height, client);
 		keyboard = new KeyInput();
 		window.getCanvas().addKeyListener(keyboard);
-		client = new Client();
 		gameInfo = new GameInfo();
-		
-		try {
-			client.connect("localhost", 6666);
-			connected = true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			connected = false;
-		}
-		
 		
 	}
 	
@@ -58,6 +49,9 @@ public class Game implements Runnable {
 		//Load coordinates
 		try {
 			Msg coords = client.getMessage();
+			if(this.connected == false)
+				this.connected = true;
+			window.getChat().printToConsole(coords.getText());
 			gameInfo.setPlayer(0, new Dimension(coords.p1x, coords.p1y));
 			gameInfo.setPlayer(1, new Dimension(coords.p2x, coords.p2y));
 			if(coords.draw1) {
@@ -68,8 +62,8 @@ public class Game implements Runnable {
 				gameInfo.setBomb(1, new Dimension(coords.p2x, coords.p2y));
 				drawBombTwo = true;
 			}
-		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			this.connected = false;
 		}
 	}
 	
@@ -153,11 +147,13 @@ public class Game implements Runnable {
 			//timer += now - lastTime;
 			lastTime = now;
 			
-			if(connected && delta >= 1) {
+			if(delta >= 1) {
 				tick();
+				if(connected) {
 				render();
 				keyboard.update();
 				send();
+				}
 				//ticks++;
 				delta--;
 			}
