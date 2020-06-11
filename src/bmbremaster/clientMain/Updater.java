@@ -22,6 +22,7 @@ public class Updater implements Runnable {
 	public void run() {
 		
 		server.start(port);
+		server.listenForClients();
 		waitForPlayers(numberOfPlayers);
 		setIDs();	
 		
@@ -73,7 +74,7 @@ public class Updater implements Runnable {
 	
 	private void waitForPlayers(int number) {
 		server.listenForClients();
-		while(server.getNumberOfClients() != number) {
+		while(server.getNumberOfClients() < number) {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {

@@ -47,8 +47,8 @@ public class Server {
     					}
     			
     				}
-    	    		System.out.println("Server doesnt wait for connetions anymore.");
-    	    		closeForConnections = true;
+    		    	System.out.println("Server doesnt wait for connetions anymore.");
+    				closeForConnections = true;
     			}
     		}; listenThread.start();
     	}
