@@ -34,21 +34,56 @@ public class Bricks extends Tiles{
 	*/
 
 	@Override
-	public void onCollision(Player player) {
+	public void onCollision ( Player player ) {
 		int [] collisions = isCollision( player.getX(), player.getY(), player.getWidth(), player.getHeight() );
-		if( collisions[0] == 1 ) { //left collision
-			player.setX( player.getX() - player.getSpeed() );
+		if( collisions[0] == 1 && collisions[2] == 1) { //left-up collision
+			if(player.getSpeedX() > 0) {
+				player.setX( player.getX() - player.getSpeedX());
+				if(player.getY() + player.getHeight() > this.y && player.getY() + player.getHeight() < this.y + this.getHeight()/2)
+					player.setY( player.getY() - player.getSpeed());
+			}
+			else if(player.getSpeedY() > 0) {
+				player.setY( player.getY() - player.getSpeedY());
+				if(player.getX() + player.getWidth() > this.x && player.getX() + player.getWidth() < this.x + this.getWidth()/2)
+					player.setX( player.getX() - player.getSpeed() );
+			}
 		}
-		/*else if( collisions[1] == 1 ) { //right collision
-			player.setX( player.getX() + player.getSpeed() );
-		}*/
-		if( collisions[2] == 1 ) { //up collision
-			player.setY( player.getY() - player.getSpeed() );
+		if( collisions[1] == 1 && collisions[2] == 1) { //right-up collision
+			if(player.getSpeedX() < 0) {
+				player.setX( player.getX() - player.getSpeedX());
+				if(player.getY() + player.getHeight() > this.y && player.getY() + player.getHeight() < this.y + this.getHeight()/2)
+					player.setY( player.getY() - player.getSpeed());
+			}
+			else if(player.getSpeedY() > 0) {
+				player.setY( player.getY() - player.getSpeedY());
+				if(player.getX() > this.x + this.width/2 && player.getX() < this.x + this.width)
+					player.setX( player.getX() + player.getSpeed() );
+			}
 		}
-		/*else if( collisions[3] == 1 ) { //down collision
-			player.setY( player.getY() + player.getSpeed() );
-		}*/
+		if( collisions[1] == 1 && collisions[3] == 1) { //right-down collision
+			if(player.getSpeedX() < 0) {
+				player.setX( player.getX() - player.getSpeedX());
+				if(player.getY() > this.y + this.height/2 && player.getY() < this.y + this.getHeight())
+					player.setY( player.getY() + player.getSpeed());
+			}
+			else if(player.getSpeedY() < 0) {
+				player.setY( player.getY() - player.getSpeedY());
+				if(player.getX() > this.x + this.width/2 && player.getX() < this.x + this.width)
+					player.setX( player.getX() + player.getSpeed());
+			}
+		}
+		if( collisions[0] == 1 && collisions[3] == 1) { //left-down collision
+			if(player.getSpeedX() > 0) {
+				player.setX( player.getX() - player.getSpeedX() );
+				if(player.getY() > this.y + this.height/2 && player.getY() < this.y + this.getHeight())
+					player.setY( player.getY() + player.getSpeed());
+			}
+			else if(player.getSpeedY() < 0) {
+				player.setY( player.getY() - player.getSpeedY());
+				if(player.getX() + player.getWidth() > this.x && player.getX() + player.getWidth() < this.x + this.width/2)
+					player.setX( player.getX() - player.getSpeed() );
+			}
+		}
 	}
-	
 
 }

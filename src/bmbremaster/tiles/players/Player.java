@@ -19,6 +19,7 @@ public class Player extends Tiles{
 	private int health;
 	private int speed;
 	private int bombTime;
+	private int speedX = 0, speedY = 0;
 	
 	public Player(int x, int y, int id ) {
 		super(x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y);
@@ -29,21 +30,45 @@ public class Player extends Tiles{
 
 	public void tick( Msg keys, Handler handler ) {
 		if(keys.a) {
-			x -= this.speed;
+			speedX = -speed;
+			if(keys.d)
+				speedX = 0;
+			if(speedY != 0)
+				speedX = 0;
+			x += speedX;
 			x = clamp(x, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
 		}
 		if(keys.d) {
-			x += this.speed;
+			speedX = speed;
+			if(keys.a)
+				speedX = 0;
+			else if(speedY != 0)
+				speedX = 0;
+			x += speedX;
 			x = clamp(x, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
 		}
 		if(keys.w) {
-			y -= this.speed;
+			speedY = -speed;
+			if(keys.s)
+				speedY = 0;
+			if(speedX != 0)
+				speedY = 0;
+			y += speedY;
 			y = clamp(y, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
 		}
 		if(keys.s) {
-			y += this.speed;
+			speedY = speed;
+			if(keys.w)
+				speedY = 0;
+			if(speedX != 0)
+				speedY = 0;
+			y += speedY;
 			y = clamp(y, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
 		}
+		if(!keys.a && !keys.d)
+			speedX = 0;
+		if(!keys.w && !keys.s)
+			speedY = 0;
 		
 		if(keys.space && bombTime <= 0) {
 			bombTime = 120;
@@ -90,6 +115,13 @@ public class Player extends Tiles{
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
+	}
+	
+	public int getSpeedX() {
+		return speedX;
+	}
+	public int getSpeedY() {
+		return speedY;
 	}
 
 }
