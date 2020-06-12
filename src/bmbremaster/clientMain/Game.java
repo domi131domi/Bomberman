@@ -12,6 +12,7 @@ import bmbremaster.graphics.GameInfo;
 import bmbremaster.server.Msg;
 import bmbremaster.tiles.Tiles;
 import bmbremaster.tiles.blocks.Bomb;
+import bmbremaster.tiles.blocks.Bricks;
 import bmbremaster.tiles.blocks.Concrete;
 import bmbremaster.tiles.blocks.Fire;
 import bmbremaster.tiles.players.Player;
@@ -73,6 +74,11 @@ public class Game implements Runnable {
 			gameInfo.resetFire();
 			for( Fire.FireCoords cord : coords.getFireCoords() )
 				gameInfo.addFire(new Fire( cord.x, cord.y, cord.width, cord.height, cord.direction ));
+			
+			gameInfo.resetBricks();
+			for( Dimension cord : coords.getBricks() ) {
+				gameInfo.addBrick(new Bricks(cord.width, cord.height, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+			}
 			
 		} catch (Exception e) {
 			this.connected = false;
@@ -155,6 +161,8 @@ public class Game implements Runnable {
        
 		for( int j = 0; j < gameInfo.getConcreteSize(); j ++ )
 			gameInfo.getConcrete(j).render(g);
+		for(int j = 0; j < gameInfo.getBricksSize(); j++)
+			gameInfo.getBrick(j).render(g);
 		for( int j = 0; j < gameInfo.getBombsSize(); j ++ )
 			gameInfo.getBomb(j).render(g);
 		

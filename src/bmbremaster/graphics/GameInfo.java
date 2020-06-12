@@ -3,6 +3,7 @@ package bmbremaster.graphics;
 import java.util.ArrayList;
 
 import bmbremaster.tiles.blocks.Bomb;
+import bmbremaster.tiles.blocks.Bricks;
 import bmbremaster.tiles.blocks.Concrete;
 import bmbremaster.tiles.blocks.Fire;
 import bmbremaster.tiles.players.Player;
@@ -13,6 +14,7 @@ public class GameInfo {
 	private ArrayList<Bomb> bombs = new ArrayList<Bomb>(20);
 	private ArrayList<Concrete> concretes = new ArrayList<Concrete>(40);
 	private ArrayList<Fire> fireArray = new ArrayList<Fire>(80);
+	private ArrayList<Bricks> bricks = new ArrayList<Bricks>(30);
 
 	public Player getPlayer(int number) {
 		return players.get(number);
@@ -80,6 +82,26 @@ public class GameInfo {
 
 	public void resetFire() {
 		fireArray.clear();
+	}
+	
+	public ArrayList<Bricks> getBricks( ) {
+		return bricks;
+	}
+	
+	public void addBrick( Bricks brick) {
+		bricks.add( brick );
+	}
+	
+	public Bricks getBrick(int number) {
+		return bricks.get(number);
+	}
+	
+	public int getBricksSize() {
+		return bricks.size();
+	}
+
+	public void resetBricks() {
+		bricks.clear();
 	}
 	//-----------
 }

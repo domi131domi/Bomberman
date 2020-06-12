@@ -8,16 +8,15 @@ import bmbremaster.tiles.players.Player;
 
 public class Bricks extends Tiles{
 	
-	private boolean exists;
 
 	public Bricks( int x, int y, int width, int height) {
 		super(x, y, width, height);
-		exists = true;
+		this.isDestructable = true;
+		this.kind = 1;
 	}
 
 	@Override
-	public void tick() {
-		//getting info about where the bomb exploded and setting exists variable to false, then need to be removed from handler
+	public void tick(Tiles tile) {
 	}
 
 	@Override
@@ -25,13 +24,6 @@ public class Bricks extends Tiles{
 		g.drawImage( Assets.bricks, (int)x, (int)y, TILE_SIZE, TILE_SIZE, null );
 	}
 
-	public boolean isExists() {
-		return exists;
-	}
-
-	public void setExists(boolean exists) {
-		this.exists = exists;
-	}
 
 	/*
 	@Override
@@ -43,8 +35,19 @@ public class Bricks extends Tiles{
 
 	@Override
 	public void onCollision(Player player) {
-		// TODO Auto-generated method stub
-		
+		int [] collisions = isCollision( player.getX(), player.getY(), player.getWidth(), player.getHeight() );
+		if( collisions[0] == 1 ) { //left collision
+			player.setX( player.getX() - player.getSpeed() );
+		}
+		/*else if( collisions[1] == 1 ) { //right collision
+			player.setX( player.getX() + player.getSpeed() );
+		}*/
+		if( collisions[2] == 1 ) { //up collision
+			player.setY( player.getY() - player.getSpeed() );
+		}
+		/*else if( collisions[3] == 1 ) { //down collision
+			player.setY( player.getY() + player.getSpeed() );
+		}*/
 	}
 	
 

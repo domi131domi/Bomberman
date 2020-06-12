@@ -17,6 +17,7 @@ public class Msg implements Serializable{
 	private ArrayList<Dimension> concreteCoords = new ArrayList<Dimension>(50);
 	private ArrayList<Dimension> bombsCoords = new ArrayList<Dimension>(20);
 	private ArrayList<Fire.FireCoords> fireCoords = new ArrayList<Fire.FireCoords>(80);
+	private ArrayList<Dimension> bricksCoords = new ArrayList<Dimension>(30);
 	
 	public Msg() {
 		
@@ -75,6 +76,14 @@ public class Msg implements Serializable{
 	
 	public ArrayList<Fire.FireCoords> getFireCoords() {
 		return fireCoords;
+	}
+	
+	public void addBrickCoords( int x, int y ) {
+		bricksCoords.add( new Dimension(x,y));
+	}
+	
+	public ArrayList<Dimension> getBricks( ) {
+		return bricksCoords;
 	}
 	
 }

@@ -10,6 +10,8 @@ public abstract class Tiles {
 	
 	protected int x, y;
 	protected int width, height;
+	protected boolean isDestructable;
+	protected int kind = -1;
 	
 	public Tiles( int x, int y, int width, int height ) {
 		this.x = x;
@@ -76,6 +78,10 @@ public abstract class Tiles {
 			return var = min;
 		else
 			return var;
+	}
+	
+	public int getKind() {
+		return this.kind;
 	}
 	
 }

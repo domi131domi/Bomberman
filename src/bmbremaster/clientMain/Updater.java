@@ -6,6 +6,7 @@ import bmbremaster.server.Handler;
 import bmbremaster.server.Msg;
 import bmbremaster.server.Server;
 import bmbremaster.tiles.Tiles;
+import bmbremaster.tiles.blocks.Bricks;
 import bmbremaster.tiles.blocks.Concrete;
 import bmbremaster.tiles.blocks.Fire;
 
@@ -63,8 +64,11 @@ public class Updater implements Runnable {
 	}
 	
 	private void prepareMessage( Msg msg ){
-		for( Tiles object: handler.getBlocksArray() ) {
-			msg.addConcreteCoords(object.getX(), object.getY());
+		for( Tiles object : handler.getBlocksArray() ) {
+			if(object.getKind() == 2)
+				msg.addConcreteCoords(object.getX(), object.getY());
+			else if(object.getKind() == 1)
+				msg.addBrickCoords(object.getX(), object.getY());
 		}
 		for(Tiles bomb : handler.getBombs() )
 			msg.addBombCoords(bomb.getX(), bomb.getY());
@@ -148,6 +152,9 @@ public class Updater implements Runnable {
 				handler.addObject( new Concrete( i*y + 10, j*y + 10, Tiles.TILE_SIZE, Tiles.TILE_SIZE) );
 			}
 		}
+		handler.addObject(new Bricks(10+3*Tiles.TILE_SIZE,10+3*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		handler.addObject(new Bricks(10+5*Tiles.TILE_SIZE,10+5*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		handler.addObject(new Bricks(10+7*Tiles.TILE_SIZE,10+7*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
 	}
 	
 }

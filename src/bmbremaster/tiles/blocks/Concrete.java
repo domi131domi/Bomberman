@@ -10,6 +10,8 @@ public class Concrete extends Tiles{
 
 	public Concrete(int x, int y, int width, int height) {
 		super(x, y, width, height);
+		this.isDestructable = false;
+		this.kind = 2;
 	}
 
 	@Override
