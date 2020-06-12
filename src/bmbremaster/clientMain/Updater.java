@@ -37,7 +37,7 @@ public class Updater implements Runnable {
 		while(true) {
 			if(server.getNumberOfClients() == numberOfPlayers) {
 				try {
-				msg = new Msg( handler.getPlayer(0).getX(), handler.getPlayer(0).getY(), handler.getPlayer(1).getX(), handler.getPlayer(1).getY(), textMsg );
+				msg = new Msg( handler.getPlayer(0).getX(), handler.getPlayer(0).getY(), handler.getPlayer(1).getX(), handler.getPlayer(1).getY(), handler.getPlayer(0).getHealth(), handler.getPlayer(1).getHealth(), textMsg );
 				prepareMessage( msg );
 				server.broadcast( msg, true);
 				textMsg = "";
@@ -152,7 +152,9 @@ public class Updater implements Runnable {
 				handler.addObject( new Concrete( i*y + 10, j*y + 10, Tiles.TILE_SIZE, Tiles.TILE_SIZE) );
 			}
 		}
+
 		handler.addObject(new Bricks(10+3*Tiles.TILE_SIZE,10+3*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		handler.addObject(new Bricks(10+3*Tiles.TILE_SIZE,10+2*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
 		handler.addObject(new Bricks(10+5*Tiles.TILE_SIZE,10+5*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
 		handler.addObject(new Bricks(10+7*Tiles.TILE_SIZE,10+7*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
 	}

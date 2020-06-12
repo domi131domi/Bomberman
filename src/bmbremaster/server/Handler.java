@@ -24,6 +24,8 @@ public class Handler {
 		}
 		for(Bomb bomb : bombs) {
 			bomb.tick(null);
+			bomb.onCollision(player1);
+			bomb.onCollision(player2);
 			if(bomb.getTimeLeft() <= 0) {
 				bombs.remove(bomb);
 				Fire fire = new Fire(bomb.getX() - Tiles.TILE_SIZE*2, bomb.getY(), Tiles.TILE_SIZE*2, Tiles.TILE_SIZE, 0);
@@ -34,6 +36,7 @@ public class Handler {
 				for(Tiles block : blocks)
 					fire.onCollision(block);
 				fireArray.add(fire);
+				fireArray.add(new Fire( bomb.getX(), bomb.getY(), Tiles.TILE_SIZE, Tiles.TILE_SIZE, 4));
 				fire = new Fire(bomb.getX(), bomb.getY()- Tiles.TILE_SIZE*2, Tiles.TILE_SIZE, Tiles.TILE_SIZE*2, 2);
 				for(Tiles block : blocks)
 					fire.onCollision(block);
@@ -42,14 +45,28 @@ public class Handler {
 				for(Tiles block : blocks)
 					fire.onCollision(block);
 				fireArray.add(fire);
+				
 			}
 		}
 		
 		for(Fire fire : fireArray) {	
 			fire.tick(null);
-			if(fire.getTimeLeft() <= 0)
+			fire.onCollision(player1);
+			fire.onCollision(player2);
+			if(fire.getTimeLeft() <= 0) {
 				fireArray.remove(fire);
+				for( Tiles block: blocks ) {
+					int [] temp = fire.isCollision(block.getX(), block.getY(), block.getWidth(), block.getHeight());
+					if( block.isDestructable() && (temp[0] == 1 || temp[1] == 1 || temp[2] == 1 || temp[3] == 1) )
+						blocks.remove(block);
+				}
+			}
 		}
+		
+		if( player1.getHealth() <= 0 )
+			player1.setAlive(false);
+		if( player2.getHealth() <= 0 )
+			player2.setAlive(false);
 	}
 	
 	public void addObject( Tiles object ) {

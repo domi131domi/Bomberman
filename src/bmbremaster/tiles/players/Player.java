@@ -21,11 +21,17 @@ public class Player extends Tiles{
 	private int bombTime;
 	private int speedX = 0, speedY = 0;
 	
+	private boolean direction;	//left - false; right - true
+	private boolean alive;
+
+	
 	public Player(int x, int y, int id ) {
 		super(x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y);
 		health = DEFAULT_HEALTH;
 		this.id = id;
 		speed = DEFAULT_SPEED;
+		this.direction = true;
+		this.alive = true;
 	}
 
 	public void tick( Msg keys, Handler handler ) {
@@ -81,13 +87,27 @@ public class Player extends Tiles{
 	public void tick(Tiles tile) {}
 	
 	@Override
-	public void render(Graphics g) {	
-		if( id == 0 )
-			g.drawImage(Assets.player1, (int)x, (int)y, PLAYER_SIZE_X, PLAYER_SIZE_Y, null );
-		else if ( id == 1 )
-			g.drawImage(Assets.player2, (int)x, (int)y, PLAYER_SIZE_X, PLAYER_SIZE_Y, null );
+	public void render(Graphics g) {
+
+		if( id == 0 )//&& health > 0 ) {
+				g.drawImage(Assets.player1, x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y, null );
+			//else
+			//	g.drawImage(Assets.player1left, x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y, null );
+		else if ( id == 1 ) //&& health > 0) {
+				g.drawImage(Assets.player2, x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y, null );
+			//else
+			//	g.drawImage(Assets.player2left, x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y, null );
+
 	}
 	
+	public boolean isDirection() {
+		return direction;
+	}
+
+	public void setDirection(boolean direction) {
+		this.direction = direction;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -122,6 +142,14 @@ public class Player extends Tiles{
 	}
 	public int getSpeedY() {
 		return speedY;
+	}
+	
+	public boolean isAlive() {
+		return alive;
+	}
+
+	public void setAlive(boolean alive) {
+		this.alive = alive;
 	}
 
 }

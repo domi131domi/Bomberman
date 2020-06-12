@@ -83,5 +83,9 @@ public abstract class Tiles {
 	public int getKind() {
 		return this.kind;
 	}
+
+	public boolean isDestructable() {
+		return isDestructable;
+	}
 	
 }

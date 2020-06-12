@@ -43,7 +43,6 @@ public class Game implements Runnable {
 		keyboard = new KeyInput();
 		window.getCanvas().addKeyListener(keyboard);
 		gameInfo = new GameInfo();
-		
 	}
 	
 	private void tick() {
@@ -58,9 +57,11 @@ public class Game implements Runnable {
 			}
 			window.getChat().printToConsole(coords.getText());
 			gameInfo.getPlayer(0).setX(coords.p1x);
-			gameInfo.getPlayer(0).setY(coords.p1y);			
+			gameInfo.getPlayer(0).setY(coords.p1y);		
+			gameInfo.getPlayer(0).setHealth(coords.p1h);
 			gameInfo.getPlayer(1).setX(coords.p2x);
 			gameInfo.getPlayer(1).setY(coords.p2y);
+			gameInfo.getPlayer(1).setHealth(coords.p2h);
 			
 			gameInfo.resetConcretes();
 			for( Dimension cord : coords.getConcretes() ) {
@@ -158,20 +159,41 @@ public class Game implements Runnable {
             }
         }
         
-       
 		for( int j = 0; j < gameInfo.getConcreteSize(); j ++ )
 			gameInfo.getConcrete(j).render(g);
-		for(int j = 0; j < gameInfo.getBricksSize(); j++)
+		for( int j = 0; j < gameInfo.getBricksSize(); j++ )
 			gameInfo.getBrick(j).render(g);
 		for( int j = 0; j < gameInfo.getBombsSize(); j ++ )
-			gameInfo.getBomb(j).render(g);
-		
-		
-		
+			gameInfo.getBomb(j).render(g);	
 		
 		gameInfo.getPlayer(0).render(g);
 		gameInfo.getPlayer(1).render(g);
+			
+		drawHealthBars(gameInfo.getPlayer(0).getHealth(), gameInfo.getPlayer(1).getHealth(), g);
 		
+	}
+	
+	public void drawHealthBars( int health1, int health2, Graphics g ) {
+		int greenValue1 = health1*2;
+		greenValue1 = Player.clamp(greenValue1, 0, 255);
+		int greenValue2 = health2*2;
+		greenValue2 = Player.clamp(greenValue2, 0, 255);
+		int localHealth1 = Player.clamp(health1, 0, Player.DEFAULT_HEALTH);
+		int localHealth2 = 100 - Player.clamp(health2, 0, Player.DEFAULT_HEALTH);
+		
+		g.setColor( Color.gray );
+		g.fillRect( 16, 16, 200, 16 );
+		g.setColor( new Color(100, greenValue1, 0 ) );
+		g.fillRect( 16, 16, localHealth1 * 2, 16 );
+		g.setColor( Color.white );
+		g.drawRect( 16, 16, 200, 16 );
+		
+		g.setColor( Color.gray );
+		g.fillRect( Assets.WIDTH - 16 - 200, 16, 200, 16 );
+		g.setColor( new Color(100, greenValue2, 0 ) );
+		g.fillRect( Assets.WIDTH - 16 - 200 + localHealth2*2, 16, 200 - localHealth2*2, 16 );
+		g.setColor( Color.white );
+		g.drawRect( Assets.WIDTH - 16 - 200, 16, 200, 16 );
 	}
 	
 	public void run() {

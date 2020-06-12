@@ -8,7 +8,7 @@ import bmbremaster.tiles.blocks.Fire;
 
 public class Msg implements Serializable{
 	private static final long serialVersionUID = 1L;
-	public int p1x, p1y, p2x, p2y;
+	public int p1x, p1y, p2x, p2y, p1h, p2h;
 	public boolean a,d,w,s,space;
 	//
 	private String text = "";
@@ -23,11 +23,14 @@ public class Msg implements Serializable{
 		
 	}
 	
-	public Msg(int p1x, int p1y, int p2x, int p2y, String text) {
+	public Msg(int p1x, int p1y, int p2x, int p2y, int p1h, int p2h, String text) {
 		this.p1x = p1x;
 		this.p2x = p2x;
 		this.p1y = p1y;
 		this.p2y = p2y;
+		
+		this.p1h = p1h;
+		this.p2h = p2h;
 		
 		this.text = text;
 	}

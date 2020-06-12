@@ -21,7 +21,7 @@ public class Bricks extends Tiles{
 
 	@Override
 	public void render(Graphics g) {	
-		g.drawImage( Assets.bricks, (int)x, (int)y, TILE_SIZE, TILE_SIZE, null );
+		g.drawImage( Assets.bricks, x, y, TILE_SIZE, TILE_SIZE, null );
 	}
 
 
