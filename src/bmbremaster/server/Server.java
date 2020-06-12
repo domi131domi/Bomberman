@@ -68,8 +68,12 @@ public class Server {
     			disconnect(id);
     		}
     		System.out.println("All Clients disconnected");
-    		while(closeForConnections) {
-    			
+    		while(!closeForConnections) {
+    			try {
+    				Thread.sleep(100);
+    			} catch (InterruptedException e) {
+    				e.printStackTrace();
+    			}
     		}
     		serverSocket.close();
     		running = false;

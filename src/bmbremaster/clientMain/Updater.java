@@ -2,26 +2,21 @@ package bmbremaster.clientMain;
 
 import java.util.Set;
 
-import bmbremaster.graphics.Assets;
 import bmbremaster.server.Handler;
-//import bmbremaster.server.Handler;
 import bmbremaster.server.Msg;
 import bmbremaster.server.Server;
 import bmbremaster.tiles.Tiles;
 import bmbremaster.tiles.blocks.Concrete;
-import bmbremaster.tiles.players.Player;
+import bmbremaster.tiles.blocks.Fire;
 
 public class Updater implements Runnable {
 	private boolean running = false;
 	private Thread thread;
 	
-	private Handler handler = new Handler();
-	private Player player1;
-	private Player player2;
+	private Handler handler;
 	
 	private Server server = new Server();
 	private Msg keys, msg;
-	private boolean drawBomb1, drawBomb2;
 	private String textMsg = "";
 	private int port = 6666, numberOfPlayers = 2;
 	private Set<Integer> IDs;
@@ -36,13 +31,12 @@ public class Updater implements Runnable {
 		setIDs();
 		initMap();
 		
-		player1 = new Player( 10 + Tiles.TILE_SIZE, 10 + Tiles.TILE_SIZE, 0 ) ;
-		player2 = new Player( Assets.WIDTH - 10 - Tiles.TILE_SIZE*2, Assets.HEIGHT - 10 - Tiles.TILE_SIZE*2, 1 ) ;
-		
+		handler.initPlayers();
+
 		while(true) {
 			if(server.getNumberOfClients() == numberOfPlayers) {
 				try {
-				msg = new Msg( (int) player1.getX(), (int) player1.getY(), (int) player2.getX(), (int) player2.getY(), textMsg );
+				msg = new Msg( handler.getPlayer(0).getX(), handler.getPlayer(0).getY(), handler.getPlayer(1).getX(), handler.getPlayer(1).getY(), textMsg );
 				prepareMessage( msg );
 				server.broadcast( msg, true);
 				textMsg = "";
@@ -50,18 +44,32 @@ public class Updater implements Runnable {
 				} catch(Exception e) {			
 				}
 			} else {
+				try {
 				server.stop();
+				player1_id = -1;
+				player2_id = -1;
 				server.start(port);
 				waitForPlayers(numberOfPlayers);
 				setIDs();
+				initMap();
+				
+				handler.initPlayers();
+				
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 	
 	private void prepareMessage( Msg msg ){
-		for( Tiles object: handler.getObjectsArray() ) {
+		for( Tiles object: handler.getBlocksArray() ) {
 			msg.addConcreteCoords(object.getX(), object.getY());
 		}
+		for(Tiles bomb : handler.getBombs() )
+			msg.addBombCoords(bomb.getX(), bomb.getY());
+		for(Fire fire: handler.getFireArray())
+			msg.addFireCoords(fire.getX(), fire.getY(), fire.getWidth(), fire.getHeight(), fire.getDirection());
 	}
 	
 	public synchronized void start() {
@@ -126,17 +134,14 @@ public class Updater implements Runnable {
 	
 	private void tick() {
 		setKeys(0);
-		player1.tick( keys );
+		handler.getPlayer(0).tick( keys, handler );
 		setKeys(1);	
-		player2.tick( keys );
-		for(Tiles object : handler.getObjectsArray()) {
-			object.onCollision(player1);
-			object.onCollision(player2);
-		}
+		handler.getPlayer(1).tick( keys, handler );
+		handler.tick();
 	}
 	
 	public void initMap() {
-		
+		handler = new Handler();
 		int y = Tiles.TILE_SIZE;
 		for( int i = 2; i < 11; i+=2 ) {
 			for( int j = 2; j < 11; j += 2) {

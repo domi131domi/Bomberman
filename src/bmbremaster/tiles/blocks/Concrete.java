@@ -13,7 +13,7 @@ public class Concrete extends Tiles{
 	}
 
 	@Override
-	public void tick() {
+	public void tick(Tiles tile) {
 		//suppose there is nothing needed
 	}
 

@@ -3,19 +3,22 @@ package bmbremaster.tiles.players;
 import java.awt.Graphics;
 
 import bmbremaster.graphics.Assets;
+import bmbremaster.server.Handler;
 import bmbremaster.server.Msg;
 import bmbremaster.tiles.Tiles;
+import bmbremaster.tiles.blocks.Bomb;
 
 public class Player extends Tiles{
 	
 	public static final int PLAYER_SIZE_X = 58;
 	public static final int PLAYER_SIZE_Y = 58;
 	public static final int DEFAULT_HEALTH = 100;
-	public static final int DEFAULT_SPEED = 4;
+	public static final int DEFAULT_SPEED = 8;
 	
 	private int id;
 	private int health;
 	private int speed;
+	private int bombTime;
 	
 	public Player(int x, int y, int id ) {
 		super(x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y);
@@ -24,7 +27,7 @@ public class Player extends Tiles{
 		speed = DEFAULT_SPEED;
 	}
 
-	public void tick( Msg keys ) {
+	public void tick( Msg keys, Handler handler ) {
 		if(keys.a) {
 			x -= this.speed;
 			x = clamp(x, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
@@ -41,10 +44,16 @@ public class Player extends Tiles{
 			y += this.speed;
 			y = clamp(y, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
 		}
+		
+		if(keys.space && bombTime <= 0) {
+			bombTime = 120;
+			handler.addBomb(new Bomb(this.x, this.y, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		}
+		--bombTime;
 	}
 
 	@Override
-	public void tick() {}
+	public void tick(Tiles tile) {}
 	
 	@Override
 	public void render(Graphics g) {	

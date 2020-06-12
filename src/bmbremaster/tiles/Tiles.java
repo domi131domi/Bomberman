@@ -18,7 +18,7 @@ public abstract class Tiles {
 		this.height = height;
 	}
 	
-	public abstract void tick();
+	public abstract void tick(Tiles tile);
 	public abstract void render(Graphics g);
 	public abstract void onCollision( Player player );
 	

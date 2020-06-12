@@ -8,9 +8,9 @@ import bmbremaster.tiles.players.Player;
 
 public class Bomb extends Tiles {
 	
-	public static final float DEFAULT_TIME = 3.0f;
+	public static final int DEFAULT_TIME = 60;
 	
-	private float timeLeft;
+	private int timeLeft;
 
 	public Bomb( int x, int y, int width, int height) {
 		super( x, y, width, height);
@@ -18,8 +18,8 @@ public class Bomb extends Tiles {
 	}
 
 	@Override
-	public void tick() {
-		//maybe decreasing time of existing?
+	public void tick(Tiles tile) {
+		timeLeft--;
 	}
 
 	@Override
@@ -27,13 +27,10 @@ public class Bomb extends Tiles {
 		g.drawImage( Assets.bomb, (int)x, (int)y, TILE_SIZE, TILE_SIZE, null);
 	}
 
-	public float getTimeLeft() {
+	public int getTimeLeft() {
 		return timeLeft;
 	}
 
-	public void setTimeLeft(float timeLeft) {
-		this.timeLeft = timeLeft;
-	}
 /*
 	@Override
 	public void onCollision(int x, int y, int sizeX, int sizeY) {

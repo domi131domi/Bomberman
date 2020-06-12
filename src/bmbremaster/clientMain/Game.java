@@ -11,7 +11,9 @@ import bmbremaster.graphics.Assets;
 import bmbremaster.graphics.GameInfo;
 import bmbremaster.server.Msg;
 import bmbremaster.tiles.Tiles;
+import bmbremaster.tiles.blocks.Bomb;
 import bmbremaster.tiles.blocks.Concrete;
+import bmbremaster.tiles.blocks.Fire;
 import bmbremaster.tiles.players.Player;
 
 public class Game implements Runnable {
@@ -29,7 +31,6 @@ public class Game implements Runnable {
 	
 	private int width, height;
 	private String title;
-	private int numberOfConcretes = 0;
 
 
 	public Game(String title, int width, int height) {
@@ -60,12 +61,18 @@ public class Game implements Runnable {
 			gameInfo.getPlayer(1).setX(coords.p2x);
 			gameInfo.getPlayer(1).setY(coords.p2y);
 			
-			numberOfConcretes = 0;
-			int iterator = coords.getConcretes().size();
+			gameInfo.resetConcretes();
 			for( Dimension cord : coords.getConcretes() ) {
 				gameInfo.addConcrete(new Concrete( cord.width, cord.height, Tiles.TILE_SIZE, Tiles.TILE_SIZE ));
-				numberOfConcretes++;
 			}
+			
+			gameInfo.resetBombs();
+			for( Dimension cord : coords.getBombs() )
+				gameInfo.addBomb(new Bomb( cord.width, cord.height, Tiles.TILE_SIZE, Tiles.TILE_SIZE ));
+			
+			gameInfo.resetFire();
+			for( Fire.FireCoords cord : coords.getFireCoords() )
+				gameInfo.addFire(new Fire( cord.x, cord.y, cord.width, cord.height, cord.direction ));
 			
 		} catch (Exception e) {
 			this.connected = false;
@@ -119,6 +126,9 @@ public class Game implements Runnable {
 		//draw grass background
 		g.setColor(new Color(0x54DC35));
 		g.fillRect(0, 0, 800, 800);
+		
+		 for(int j = 0; j < gameInfo.getFireSize(); j++)
+				gameInfo.getFire(j).render(g);
 
 		//steel edges
 		g.drawImage( Assets.steelVertical, 0, 0, 10, Assets.HEIGHT, null );
@@ -141,11 +151,14 @@ public class Game implements Runnable {
                     j+=2;
             }
         }
-		
-	
-		for( int j = 0; j < numberOfConcretes; j ++ ) {
+        
+       
+		for( int j = 0; j < gameInfo.getConcreteSize(); j ++ )
 			gameInfo.getConcrete(j).render(g);
-		}
+		for( int j = 0; j < gameInfo.getBombsSize(); j ++ )
+			gameInfo.getBomb(j).render(g);
+		
+		
 		
 		
 		gameInfo.getPlayer(0).render(g);
@@ -156,7 +169,7 @@ public class Game implements Runnable {
 	public void run() {
 		init();
 		
-		int fps = 120;
+		int fps = 60;
 		double timePerTick = 1000000000 / fps;	//nanoseconds
 		double delta = 0;
 		long now;
