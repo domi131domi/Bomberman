@@ -47,7 +47,7 @@ public class Player extends Tiles{
 		
 		if(keys.space && bombTime <= 0) {
 			bombTime = 120;
-			handler.addBomb(new Bomb(this.x, this.y, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+			handler.addBomb(new Bomb(this.x + this.x%Tiles.TILE_SIZE, this.y, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
 		}
 		--bombTime;
 	}

@@ -26,17 +26,26 @@ public class Handler {
 			bomb.tick(null);
 			if(bomb.getTimeLeft() <= 0) {
 				bombs.remove(bomb);
-				fireArray.add(new Fire(bomb.getX() - Tiles.TILE_SIZE*2, bomb.getY(), Tiles.TILE_SIZE*2, Tiles.TILE_SIZE, 0));
-				fireArray.add(new Fire(bomb.getX() + Tiles.TILE_SIZE, bomb.getY(), Tiles.TILE_SIZE*2, Tiles.TILE_SIZE, 1));
-				fireArray.add(new Fire(bomb.getX(), bomb.getY() - Tiles.TILE_SIZE * 2 , Tiles.TILE_SIZE, Tiles.TILE_SIZE * 2, 2));
-				fireArray.add(new Fire(bomb.getX(), bomb.getY() + Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE * 2, 3));
+				Fire fire = new Fire(bomb.getX() - Tiles.TILE_SIZE*2, bomb.getY(), Tiles.TILE_SIZE*2, Tiles.TILE_SIZE, 0);
+				for(Tiles block : blocks)
+					fire.onCollision(block);
+				fireArray.add(fire);
+				fire = new Fire(bomb.getX() + Tiles.TILE_SIZE, bomb.getY(), Tiles.TILE_SIZE*2, Tiles.TILE_SIZE, 1);
+				for(Tiles block : blocks)
+					fire.onCollision(block);
+				fireArray.add(fire);
+				fire = new Fire(bomb.getX(), bomb.getY()- Tiles.TILE_SIZE*2, Tiles.TILE_SIZE, Tiles.TILE_SIZE*2, 2);
+				for(Tiles block : blocks)
+					fire.onCollision(block);
+				fireArray.add(fire);
+				fire = new Fire(bomb.getX(), bomb.getY() + Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE*2, 3);
+				for(Tiles block : blocks)
+					fire.onCollision(block);
+				fireArray.add(fire);
 			}
 		}
-		for(Fire fire : fireArray) {
-			for(Tiles block : blocks) {
-				fire.onCollision(block);
-			}
-			
+		
+		for(Fire fire : fireArray) {	
 			fire.tick(null);
 			if(fire.getTimeLeft() <= 0)
 				fireArray.remove(fire);
