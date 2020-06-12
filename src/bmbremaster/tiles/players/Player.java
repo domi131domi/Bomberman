@@ -22,7 +22,6 @@ public class Player extends Tiles{
 	private int speedX = 0, speedY = 0;
 	
 	private boolean direction;	//left - false; right - true
-	private boolean alive;
 
 	
 	public Player(int x, int y, int id ) {
@@ -31,7 +30,6 @@ public class Player extends Tiles{
 		this.id = id;
 		speed = DEFAULT_SPEED;
 		this.direction = true;
-		this.alive = true;
 	}
 
 	public void tick( Msg keys, Handler handler ) {
@@ -43,6 +41,7 @@ public class Player extends Tiles{
 				speedX = 0;
 			x += speedX;
 			x = clamp(x, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
+			direction = false;
 		}
 		if(keys.d) {
 			speedX = speed;
@@ -52,6 +51,7 @@ public class Player extends Tiles{
 				speedX = 0;
 			x += speedX;
 			x = clamp(x, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
+			direction = true;
 		}
 		if(keys.w) {
 			speedY = -speed;
@@ -61,6 +61,7 @@ public class Player extends Tiles{
 				speedY = 0;
 			y += speedY;
 			y = clamp(y, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
+			direction = true;
 		}
 		if(keys.s) {
 			speedY = speed;
@@ -70,6 +71,7 @@ public class Player extends Tiles{
 				speedY = 0;
 			y += speedY;
 			y = clamp(y, 10 + Tiles.TILE_SIZE, 800 - Tiles.TILE_SIZE*2 - 10);
+			direction = false;
 		}
 		if(!keys.a && !keys.d)
 			speedX = 0;
@@ -88,19 +90,22 @@ public class Player extends Tiles{
 	
 	@Override
 	public void render(Graphics g) {
-
 		if( id == 0 )//&& health > 0 ) {
-				g.drawImage(Assets.player1, x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y, null );
-			//else
-			//	g.drawImage(Assets.player1left, x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y, null );
+			if( direction )
+				g.drawImage( Assets.player1, x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y, null);
+				//g.drawImage(Assets.player1, x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y, null );
+			else
+				g.drawImage(Assets.player1left, x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y, null );
 		else if ( id == 1 ) //&& health > 0) {
+			if( direction )
 				g.drawImage(Assets.player2, x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y, null );
-			//else
-			//	g.drawImage(Assets.player2left, x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y, null );
+			else
+				g.drawImage(Assets.player2left, x, y, PLAYER_SIZE_X, PLAYER_SIZE_Y, null );
+		
 
 	}
 	
-	public boolean isDirection() {
+	public boolean getDirection() {
 		return direction;
 	}
 
@@ -144,12 +149,5 @@ public class Player extends Tiles{
 		return speedY;
 	}
 	
-	public boolean isAlive() {
-		return alive;
-	}
-
-	public void setAlive(boolean alive) {
-		this.alive = alive;
-	}
 
 }

@@ -36,6 +36,7 @@ public class ClientWindow {
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		//frame.setBackground(new Color(255, 174, 201, 0));
 		
 		canvas = new Canvas();
 		canvas.setPreferredSize(new Dimension(width, height));

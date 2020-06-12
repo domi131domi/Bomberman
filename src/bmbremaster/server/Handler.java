@@ -62,11 +62,7 @@ public class Handler {
 				}
 			}
 		}
-		
-		if( player1.getHealth() <= 0 )
-			player1.setAlive(false);
-		if( player2.getHealth() <= 0 )
-			player2.setAlive(false);
+
 	}
 	
 	public void addObject( Tiles object ) {

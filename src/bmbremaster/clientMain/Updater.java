@@ -37,7 +37,8 @@ public class Updater implements Runnable {
 		while(true) {
 			if(server.getNumberOfClients() == numberOfPlayers) {
 				try {
-				msg = new Msg( handler.getPlayer(0).getX(), handler.getPlayer(0).getY(), handler.getPlayer(1).getX(), handler.getPlayer(1).getY(), handler.getPlayer(0).getHealth(), handler.getPlayer(1).getHealth(), textMsg );
+				msg = new Msg( handler.getPlayer(0).getX(), handler.getPlayer(0).getY(), handler.getPlayer(1).getX(), handler.getPlayer(1).getY(), 
+							   handler.getPlayer(0).getHealth(), handler.getPlayer(1).getHealth(), handler.getPlayer(0).getDirection(), handler.getPlayer(1).getDirection(), textMsg );
 				prepareMessage( msg );
 				server.broadcast( msg, true);
 				textMsg = "";
@@ -152,11 +153,42 @@ public class Updater implements Runnable {
 				handler.addObject( new Concrete( i*y + 10, j*y + 10, Tiles.TILE_SIZE, Tiles.TILE_SIZE) );
 			}
 		}
-
-		handler.addObject(new Bricks(10+3*Tiles.TILE_SIZE,10+3*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		handler.addObject(new Bricks(10+3*Tiles.TILE_SIZE,10+2*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		handler.addObject(new Bricks(10+5*Tiles.TILE_SIZE,10+5*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		handler.addObject(new Bricks(10+7*Tiles.TILE_SIZE,10+7*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		//drawing bricks
+		for( int i = 0; i < 6; ++i ) 
+			handler.addObject(new Bricks( 10 + 3*Tiles.TILE_SIZE + i * Tiles.TILE_SIZE, 10 + Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		for( int i = 0; i < 4; ++i )
+			handler.addObject(new Bricks( 10 + Tiles.TILE_SIZE , 10 + Tiles.TILE_SIZE*5 + i * Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		for( int i = 0; i < 3; ++i )
+			handler.addObject(new Bricks( 10 + Tiles.TILE_SIZE*2 + i * Tiles.TILE_SIZE , 10 + Tiles.TILE_SIZE*5, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		for( int i = 0; i < 4; ++i )
+			handler.addObject(new Bricks( 10 + Tiles.TILE_SIZE*7, 10 + Tiles.TILE_SIZE*2 + i * Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		for( int i = 0; i < 4; ++i )
+			handler.addObject(new Bricks( 10 + Tiles.TILE_SIZE + i * Tiles.TILE_SIZE, 10 + Tiles.TILE_SIZE*11, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		for( int i = 0; i < 3; ++i )
+			handler.addObject(new Bricks(10 + Tiles.TILE_SIZE*3, 10 + 7*Tiles.TILE_SIZE + i * Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		for( int i = 0; i < 5; ++i )
+			handler.addObject(new Bricks(10 + Tiles.TILE_SIZE*5, 10 + 6*Tiles.TILE_SIZE + i * Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		for( int i = 0; i < 5; ++i )
+			handler.addObject(new Bricks(10 + Tiles.TILE_SIZE*11, 10 + 3*Tiles.TILE_SIZE + i * Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		for( int i = 0; i < 4; ++i )
+			handler.addObject(new Bricks(10 + Tiles.TILE_SIZE*8 + i * Tiles.TILE_SIZE , 10 + 9*Tiles.TILE_SIZE , Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		for( int i = 0; i < 3; ++i )
+			handler.addObject(new Bricks(10 + Tiles.TILE_SIZE*6 + i * Tiles.TILE_SIZE , 10 + 11*Tiles.TILE_SIZE , Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		for( int i = 0; i < 5; ++i )
+			handler.addObject(new Bricks(10 + Tiles.TILE_SIZE*9 , 10 + 2*Tiles.TILE_SIZE + i * Tiles.TILE_SIZE , Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		
+		handler.addObject(new Bricks(10 + 5*Tiles.TILE_SIZE, 10 + 2*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		handler.addObject(new Bricks(10 + 5*Tiles.TILE_SIZE, 10 + 4*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		handler.addObject(new Bricks(10 + Tiles.TILE_SIZE, 10 + 10*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		handler.addObject(new Bricks(10 + Tiles.TILE_SIZE*3, 10 + 9*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		handler.addObject(new Bricks(10 + Tiles.TILE_SIZE*4, 10 + 7*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		handler.addObject(new Bricks(10 + 10*Tiles.TILE_SIZE, 10 + 3*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		handler.addObject(new Bricks(10 + 10*Tiles.TILE_SIZE, 10 + 7*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		handler.addObject(new Bricks(10 + 8*Tiles.TILE_SIZE, 10 + 5*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));	
+		handler.addObject(new Bricks(10 + 3*Tiles.TILE_SIZE, 10 + 3*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		handler.addObject(new Bricks(10 + 3*Tiles.TILE_SIZE, 10 + 2*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		handler.addObject(new Bricks(10 + 5*Tiles.TILE_SIZE, 10 + 5*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+		handler.addObject(new Bricks(10 + 7*Tiles.TILE_SIZE, 10 + 7*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
 	}
 	
 }

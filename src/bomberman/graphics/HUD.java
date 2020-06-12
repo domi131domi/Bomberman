@@ -3,8 +3,6 @@ package bomberman.graphics;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import bmbremaster.tiles.Tiles;
-import bmbremaster.tiles.blocks.Bricks;
 import bomberman.main.Game;
 
 public class HUD {
@@ -44,19 +42,4 @@ public class HUD {
 }
 
 
-//drawing bricks
-for( int i = 0; i < 6; ++i ) {
-	handler.addObject(new Bricks( 10 + 3*Tiles.TILE_SIZE + i * Tiles.TILE_SIZE, 10 + Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-}
-for( int i = 0; i < 4; ++i ) {
-	handler.addObject(new Bricks( 10 + Tiles.TILE_SIZE , 10 + Tiles.TILE_SIZE*5 + i * Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-}
-for( int i = 0; i < 4; ++i ) {
-	
-}
-for( int i = 0; i < 4; ++i ) {
-	
-}
-for( int i = 0; i < 4; ++i ) {
-	
-}
+

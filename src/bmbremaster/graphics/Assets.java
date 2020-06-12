@@ -1,5 +1,6 @@
 package bmbremaster.graphics;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import bmbremaster.tiles.Tiles;
@@ -7,13 +8,14 @@ import bmbremaster.tiles.Tiles;
 public class Assets {
 	
 	public static final int WIDTH = 800, HEIGHT = 800;
+	public static final Color backgroundColor = new Color(0x54DC35);
 	
 	public static BufferedImage player1, player2, bomb, bricks, concrete, steelVertical, steelHorizontal,
     explosionUp, explosionDown, explosionLeft, explosionRight, explosionCenter, player1left, player2left;
    
 
 	public static void init() {
-		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/textures_vol2.png"));
+		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/textures_vol3.png"));
 
 		player1 = sheet.crop(0, 0, Tiles.TILE_SIZE, Tiles.TILE_SIZE);
 		player2 = sheet.crop(Tiles.TILE_SIZE, 0, Tiles.TILE_SIZE, Tiles.TILE_SIZE);

@@ -58,10 +58,12 @@ public class Game implements Runnable {
 			window.getChat().printToConsole(coords.getText());
 			gameInfo.getPlayer(0).setX(coords.p1x);
 			gameInfo.getPlayer(0).setY(coords.p1y);		
-			gameInfo.getPlayer(0).setHealth(coords.p1h);
 			gameInfo.getPlayer(1).setX(coords.p2x);
 			gameInfo.getPlayer(1).setY(coords.p2y);
+			gameInfo.getPlayer(0).setHealth(coords.p1h);
 			gameInfo.getPlayer(1).setHealth(coords.p2h);
+			gameInfo.getPlayer(0).setDirection(coords.p1dir);
+			gameInfo.getPlayer(1).setDirection(coords.p2dir);
 			
 			gameInfo.resetConcretes();
 			for( Dimension cord : coords.getConcretes() ) {
@@ -129,9 +131,8 @@ public class Game implements Runnable {
 	}
 	
 	private void drawGame(Graphics g) {
-		
 		//draw grass background
-		g.setColor(new Color(0x54DC35));
+		g.setColor(Assets.backgroundColor);
 		g.fillRect(0, 0, 800, 800);
 		
 		 for(int j = 0; j < gameInfo.getFireSize(); j++)
@@ -174,23 +175,25 @@ public class Game implements Runnable {
 	}
 	
 	public void drawHealthBars( int health1, int health2, Graphics g ) {
-		int greenValue1 = health1*2;
+		int greenValue1 = health1*2 + health1/2;
 		greenValue1 = Player.clamp(greenValue1, 0, 255);
-		int greenValue2 = health2*2;
+		int greenValue2 = health2*2 + health2/2 ;
 		greenValue2 = Player.clamp(greenValue2, 0, 255);
+		int redValue1 = 255 - greenValue1;
+		int redValue2 = 255 - greenValue2;
 		int localHealth1 = Player.clamp(health1, 0, Player.DEFAULT_HEALTH);
 		int localHealth2 = 100 - Player.clamp(health2, 0, Player.DEFAULT_HEALTH);
 		
 		g.setColor( Color.gray );
 		g.fillRect( 16, 16, 200, 16 );
-		g.setColor( new Color(100, greenValue1, 0 ) );
+		g.setColor( new Color(redValue1, greenValue1, 0 ) );
 		g.fillRect( 16, 16, localHealth1 * 2, 16 );
 		g.setColor( Color.white );
 		g.drawRect( 16, 16, 200, 16 );
 		
 		g.setColor( Color.gray );
 		g.fillRect( Assets.WIDTH - 16 - 200, 16, 200, 16 );
-		g.setColor( new Color(100, greenValue2, 0 ) );
+		g.setColor( new Color(redValue2, greenValue2, 0 ) );
 		g.fillRect( Assets.WIDTH - 16 - 200 + localHealth2*2, 16, 200 - localHealth2*2, 16 );
 		g.setColor( Color.white );
 		g.drawRect( Assets.WIDTH - 16 - 200, 16, 200, 16 );
