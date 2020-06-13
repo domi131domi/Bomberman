@@ -2,7 +2,9 @@ package bmbremaster.clientMain;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
 
@@ -64,6 +66,10 @@ public class Game implements Runnable {
 			gameInfo.getPlayer(1).setHealth(coords.p2h);
 			gameInfo.getPlayer(0).setDirection(coords.p1dir);
 			gameInfo.getPlayer(1).setDirection(coords.p2dir);
+			gameInfo.setNick1(coords.getNick1());
+			gameInfo.setNick2(coords.getNick2());
+			gameInfo.setWins1(coords.getWins1());
+			gameInfo.setWins2(coords.getWins2());
 			
 			gameInfo.resetConcretes();
 			for( Dimension cord : coords.getConcretes() ) {
@@ -172,6 +178,17 @@ public class Game implements Runnable {
 			
 		drawHealthBars(gameInfo.getPlayer(0).getHealth(), gameInfo.getPlayer(1).getHealth(), g);
 		
+		Graphics2D d2g = (Graphics2D) g;
+		d2g.setFont( new Font( "Times New Roman", Font.BOLD, 20 ));
+		d2g.setColor( Color.magenta );
+		d2g.drawString(gameInfo.getNick1(), 25, 32);
+		d2g.drawString(gameInfo.getNick2(), Assets.WIDTH - 30 - gameInfo.getNick2().length() * 8, 32);
+		d2g.setColor( new Color(20,66,224));
+		String winText = "Wins: " + gameInfo.getWins1();
+		d2g.drawString(winText, 225, 32);
+		winText = "Wins: " + gameInfo.getWins2();
+		d2g.drawString(winText, Assets.WIDTH - 230 - winText.length() * 8, 32);
+		
 	}
 	
 	public void drawHealthBars( int health1, int health2, Graphics g ) {
@@ -185,18 +202,18 @@ public class Game implements Runnable {
 		int localHealth2 = 100 - Player.clamp(health2, 0, Player.DEFAULT_HEALTH);
 		
 		g.setColor( Color.gray );
-		g.fillRect( 16, 16, 200, 16 );
+		g.fillRect( 16, 16, 200, 20 );
 		g.setColor( new Color(redValue1, greenValue1, 0 ) );
-		g.fillRect( 16, 16, localHealth1 * 2, 16 );
+		g.fillRect( 16, 16, localHealth1 * 2, 20 );
 		g.setColor( Color.white );
-		g.drawRect( 16, 16, 200, 16 );
+		g.drawRect( 16, 16, 200, 20 );
 		
 		g.setColor( Color.gray );
-		g.fillRect( Assets.WIDTH - 16 - 200, 16, 200, 16 );
+		g.fillRect( Assets.WIDTH - 16 - 200, 16, 200, 20 );
 		g.setColor( new Color(redValue2, greenValue2, 0 ) );
-		g.fillRect( Assets.WIDTH - 16 - 200 + localHealth2*2, 16, 200 - localHealth2*2, 16 );
+		g.fillRect( Assets.WIDTH - 16 - 200 + localHealth2*2, 16, 200 - localHealth2*2, 20 );
 		g.setColor( Color.white );
-		g.drawRect( Assets.WIDTH - 16 - 200, 16, 200, 16 );
+		g.drawRect( Assets.WIDTH - 16 - 200, 16, 200, 20 );
 	}
 	
 	public void run() {

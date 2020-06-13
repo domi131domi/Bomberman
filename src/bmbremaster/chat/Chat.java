@@ -84,6 +84,10 @@ public class Chat {
 				if(!connected) {
 					client.connect(ip, port);
 					printToConsole("Connected to: \n" + ip + ":" + port);
+					try {
+						client.sendMessage(new Msg("//setnick " + this.nickname));
+						} catch(IOException e1) {
+						}
 				} else
 					printToConsole("Already connected.");
 			} catch(IOException e) {
@@ -102,6 +106,10 @@ public class Chat {
 			message = message.substring(10);
 			this.nickname = message;
 			printToConsole("Set name to: "+ message);
+			try {
+				client.sendMessage(new Msg("//setnick " + this.nickname));
+				} catch(IOException e1) {
+				}
 		} else if(message.startsWith("/help")) {
 			printToConsole("Avaible commands:\n/help\n/connect [IPadress] [port]\n/disconnect\n/set name [nickname]\n/0 - connect to localhost");
 		} else if(message.startsWith("/0")) { 
@@ -111,6 +119,10 @@ public class Chat {
 				if(!connected) {
 					client.connect(ip, port);
 					printToConsole("Connected to: \n" + ip + ":" + port);
+					try {
+						client.sendMessage(new Msg("//setnick " + this.nickname));
+						} catch(IOException e1) {
+						}
 				} else
 					printToConsole("Already connected.");
 			} catch(IOException e) {

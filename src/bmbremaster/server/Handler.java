@@ -12,7 +12,7 @@ public class Handler {
 	
 	private Player player1;
 	private Player player2;
-	private ArrayList<Tiles> blocks = new ArrayList<Tiles>(50);
+	private ArrayList<Tiles> blocks = new ArrayList<Tiles>(80);
 	private ArrayList<Bomb> bombs = new ArrayList<Bomb>(20);
 	private ArrayList<Fire> fireArray = new ArrayList<Fire>(30);
 	
@@ -23,10 +23,14 @@ public class Handler {
 			object.onCollision(player2);
 		}
 		for(Bomb bomb : bombs) {
+			for(Tiles object : blocks)
+				bomb.onCollision(object);
 			bomb.tick(null);
 			bomb.onCollision(player1);
 			bomb.onCollision(player2);
 			if(bomb.getTimeLeft() <= 0) {
+				bomb.setX((int) ( Math.round((float) bomb.getX() / (float) Tiles.TILE_SIZE)) * Tiles.TILE_SIZE + 10);
+				bomb.setY((int) ( Math.round((float) bomb.getY() / (float) Tiles.TILE_SIZE)) * Tiles.TILE_SIZE + 10);
 				bombs.remove(bomb);
 				Fire fire = new Fire(bomb.getX() - Tiles.TILE_SIZE*2, bomb.getY(), Tiles.TILE_SIZE*2, Tiles.TILE_SIZE, 0);
 				for(Tiles block : blocks)

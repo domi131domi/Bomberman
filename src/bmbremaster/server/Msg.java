@@ -10,6 +10,11 @@ public class Msg implements Serializable{
 	private static final long serialVersionUID = 1L;
 	public int p1x, p1y, p2x, p2y, p1h, p2h;
 	public boolean a,d,w,s,space, p1dir, p2dir;
+	private String nick1, nick2;
+	private int wins1, wins2;
+	
+	
+
 	//
 	private String text = "";
 	private boolean isTextMsg = false;
@@ -91,5 +96,36 @@ public class Msg implements Serializable{
 	public ArrayList<Dimension> getBricks( ) {
 		return bricksCoords;
 	}
+
+	public String getNick1() {
+		return nick1;
+	}
+
+	public void setNick1(String nick1) {
+		this.nick1 = nick1;
+	}
+
+	public String getNick2() {
+		return nick2;
+	}
+
+	public void setNick2(String nick2) {
+		this.nick2 = nick2;
+	}
 	
+	public int getWins1() {
+		return wins1;
+	}
+
+	public void setWins1(int wins1) {
+		this.wins1 = wins1;
+	}
+
+	public int getWins2() {
+		return wins2;
+	}
+
+	public void setWins2(int wins2) {
+		this.wins2 = wins2;
+	}
 }

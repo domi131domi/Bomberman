@@ -81,6 +81,12 @@ public class Chat {
 				int port = Integer.parseInt(message.substring(message.indexOf(" ") + 1));
 				client.connect(ip, port);
 				printToConsole("Connected to: \n" + ip + ":" + port);
+				try {
+					client.sendMessage(new Msg("/setnick " + this.nickname));
+					System.out.println("Wyslano nick");
+					} catch(IOException e1) {
+						e1.printStackTrace();
+					}
 			} catch(IOException e) {
 				printToConsole("Server not found.");
 			} catch(NumberFormatException | StringIndexOutOfBoundsException e1) {
@@ -97,6 +103,10 @@ public class Chat {
 			message = message.substring(10);
 			this.nickname = message;
 			printToConsole("Set name to: "+ message);
+			try {
+				client.sendMessage(new Msg("/setnick " + this.nickname));
+				} catch(IOException e1) {
+				}
 		} else if(message.startsWith("/help")) {
 			printToConsole("Avaible commands:\n/help\n/connect [IPadress] [port]\n/disconnect\n/set name [nickname]");
 		} else {

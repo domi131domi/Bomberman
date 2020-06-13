@@ -22,6 +22,12 @@ public class Updater implements Runnable {
 	private int port = 6666, numberOfPlayers = 2;
 	private Set<Integer> IDs;
 	private int player1_id = -1, player2_id = -1;
+	private boolean keepPlaying = true;
+	private int newGameTime = 120;
+	private String nick1 = "";
+	private String nick2 = "";
+	private int wins1 = 0;
+	private int wins2 = 0;
 	
 
 	
@@ -43,6 +49,15 @@ public class Updater implements Runnable {
 				server.broadcast( msg, true);
 				textMsg = "";
 				tick();
+				if(!keepPlaying) {
+					if(newGameTime < 0) {
+						initMap();
+						handler.initPlayers();
+						newGameTime = 120;
+						keepPlaying = true;
+					}
+					newGameTime--;
+				}
 				} catch(Exception e) {			
 				}
 			} else {
@@ -75,6 +90,10 @@ public class Updater implements Runnable {
 			msg.addBombCoords(bomb.getX(), bomb.getY());
 		for(Fire fire: handler.getFireArray())
 			msg.addFireCoords(fire.getX(), fire.getY(), fire.getWidth(), fire.getHeight(), fire.getDirection());
+		msg.setNick1(nick1);
+		msg.setNick2(nick2);
+		msg.setWins1(wins1);
+		msg.setWins2(wins2);
 	}
 	
 	public synchronized void start() {
@@ -129,8 +148,20 @@ public class Updater implements Runnable {
 		try {
 			msg = server.getMessage(id, true);
 			while(msg.isTextMsg()) {
-				textMsg += msg.getText();
-				msg = server.getMessage(id, true);
+				if(msg.getText().startsWith("//setnick")) {
+					if(id == player1_id) {
+						nick1 = msg.getText().substring(10);
+						if(nick1.equals("Default"))
+							nick1 = "Player1";
+					} else if(id == player2_id) {
+						nick2 = msg.getText().substring(10);
+						if(nick2.equals("Default"))
+							nick2 = "Player2";
+					}
+				} else {
+					textMsg += msg.getText();
+				}
+				msg = server.getMessage(id, true);					
 			}
 			keys = msg;
 		} catch (Exception e) {
@@ -139,10 +170,23 @@ public class Updater implements Runnable {
 	
 	private void tick() {
 		setKeys(0);
-		handler.getPlayer(0).tick( keys, handler );
+		if(keepPlaying)
+			handler.getPlayer(0).tick( keys, handler );
 		setKeys(1);	
-		handler.getPlayer(1).tick( keys, handler );
-		handler.tick();
+		if(keepPlaying) {
+			handler.getPlayer(1).tick( keys, handler );
+			handler.tick();			
+			if(handler.getPlayer(1).getHealth() <= 0) {
+				textMsg += new String("\nPlayer 1 Won!\n");
+				wins1++;
+				keepPlaying = false;
+			}
+			if(handler.getPlayer(0).getHealth() <= 0) {
+				textMsg += new String("\nPlayer 2 Won!\n");
+				wins2++;
+				keepPlaying = false;
+			}
+		}
 	}
 	
 	public void initMap() {

@@ -10,8 +10,8 @@ import bmbremaster.tiles.blocks.Bomb;
 
 public class Player extends Tiles{
 	
-	public static final int PLAYER_SIZE_X = 58;
-	public static final int PLAYER_SIZE_Y = 58;
+	public static final int PLAYER_SIZE_X = 56;
+	public static final int PLAYER_SIZE_Y = 56;
 	public static final int DEFAULT_HEALTH = 100;
 	public static final int DEFAULT_SPEED = 8;
 	
@@ -80,7 +80,9 @@ public class Player extends Tiles{
 		
 		if(keys.space && bombTime <= 0) {
 			bombTime = 120;
-			handler.addBomb(new Bomb((int) ( Math.round((float) this.x / (float) Tiles.TILE_SIZE)) * Tiles.TILE_SIZE + 10, (int) ( Math.round((float) this.y / (float) Tiles.TILE_SIZE)) * Tiles.TILE_SIZE + 10, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+			Bomb newBomb = new Bomb((int) ( Math.round((float) this.x / (float) Tiles.TILE_SIZE)) * Tiles.TILE_SIZE + 10, (int) ( Math.round((float) this.y / (float) Tiles.TILE_SIZE)) * Tiles.TILE_SIZE + 10, Tiles.TILE_SIZE, Tiles.TILE_SIZE);
+			newBomb.setOwner(this.id);
+			handler.addBomb(newBomb);
 		}
 		--bombTime;
 	}
