@@ -2,7 +2,6 @@ package bmbremaster.server;
 
 import java.util.ArrayList;
 
-import bmbremaster.graphics.Assets;
 import bmbremaster.tiles.Tiles;
 import bmbremaster.tiles.blocks.Bomb;
 import bmbremaster.tiles.blocks.Fire;
@@ -81,9 +80,9 @@ public class Handler {
 		return blocks;
 	}
 	
-	public void initPlayers() {
-		player1 = new Player( 10 + Tiles.TILE_SIZE, 10 + Tiles.TILE_SIZE, 0 ) ;
-		player2 = new Player( Assets.WIDTH - 10 - Tiles.TILE_SIZE*2, Assets.HEIGHT - 10 - Tiles.TILE_SIZE*2, 1 );
+	public void initPlayers(int x1, int y1, int x2, int y2) {
+		player1 = new Player( x1, y1, 0 ) ;
+		player2 = new Player( x2, y2, 1 );
 	}
 	
 	public Player getPlayer(int number) {

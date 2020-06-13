@@ -1,5 +1,8 @@
 package bmbremaster.clientMain;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 import java.util.Set;
 
 import bmbremaster.server.Handler;
@@ -28,7 +31,14 @@ public class Updater implements Runnable {
 	private String nick2 = "";
 	private int wins1 = 0;
 	private int wins2 = 0;
+	private final int mapSize = 11;
+	private int [][] map = new int[mapSize][mapSize];
+	private String mapName;
 	
+	public Updater(int port, String mapName) {
+		this.port = port;
+		this.mapName = mapName;
+	}
 
 	
 	public void run() {
@@ -36,11 +46,11 @@ public class Updater implements Runnable {
 		server.start(port);
 		waitForPlayers(numberOfPlayers);
 		setIDs();
+		readMap();
 		initMap();
 		
-		handler.initPlayers();
 
-		while(true) {
+		while(running) {
 			if(server.getNumberOfClients() == numberOfPlayers) {
 				try {
 				msg = new Msg( handler.getPlayer(0).getX(), handler.getPlayer(0).getY(), handler.getPlayer(1).getX(), handler.getPlayer(1).getY(), 
@@ -52,7 +62,6 @@ public class Updater implements Runnable {
 				if(!keepPlaying) {
 					if(newGameTime < 0) {
 						initMap();
-						handler.initPlayers();
 						newGameTime = 120;
 						keepPlaying = true;
 					}
@@ -69,8 +78,6 @@ public class Updater implements Runnable {
 				waitForPlayers(numberOfPlayers);
 				setIDs();
 				initMap();
-				
-				handler.initPlayers();
 				
 				} catch(Exception e) {
 					e.printStackTrace();
@@ -108,11 +115,7 @@ public class Updater implements Runnable {
 		if(!running)
 			return;
 		running = false;
-		try {
-			thread.join();
-		} catch(InterruptedException e ) {
-			e.printStackTrace();
-		}
+		server.stop();
 	}
 	
 	private void setIDs() {
@@ -189,50 +192,46 @@ public class Updater implements Runnable {
 		}
 	}
 	
-	public void initMap() {
+	public void readMap() {
 		handler = new Handler();
-		int y = Tiles.TILE_SIZE;
-		for( int i = 2; i < 11; i+=2 ) {
-			for( int j = 2; j < 11; j += 2) {
-				handler.addObject( new Concrete( i*y + 10, j*y + 10, Tiles.TILE_SIZE, Tiles.TILE_SIZE) );
-			}
+		File myObj = new File(mapName + ".txt");
+		try {
+			Scanner myReader = new Scanner(myObj);
+			int y = 0;
+			while (myReader.hasNextLine()) {
+		        String data = myReader.nextLine();
+		        for(int x = 0; x < data.length(); x++) {
+		        	if(x < mapSize)
+		        		map[y][x] = data.charAt(x);
+		        }
+		        y++;
+		      }
+			myReader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Nie znaleziono mapy");
 		}
-		//drawing bricks
-		for( int i = 0; i < 6; ++i ) 
-			handler.addObject(new Bricks( 10 + 3*Tiles.TILE_SIZE + i * Tiles.TILE_SIZE, 10 + Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		for( int i = 0; i < 4; ++i )
-			handler.addObject(new Bricks( 10 + Tiles.TILE_SIZE , 10 + Tiles.TILE_SIZE*5 + i * Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		for( int i = 0; i < 3; ++i )
-			handler.addObject(new Bricks( 10 + Tiles.TILE_SIZE*2 + i * Tiles.TILE_SIZE , 10 + Tiles.TILE_SIZE*5, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		for( int i = 0; i < 4; ++i )
-			handler.addObject(new Bricks( 10 + Tiles.TILE_SIZE*7, 10 + Tiles.TILE_SIZE*2 + i * Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		for( int i = 0; i < 4; ++i )
-			handler.addObject(new Bricks( 10 + Tiles.TILE_SIZE + i * Tiles.TILE_SIZE, 10 + Tiles.TILE_SIZE*11, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		for( int i = 0; i < 3; ++i )
-			handler.addObject(new Bricks(10 + Tiles.TILE_SIZE*3, 10 + 7*Tiles.TILE_SIZE + i * Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		for( int i = 0; i < 5; ++i )
-			handler.addObject(new Bricks(10 + Tiles.TILE_SIZE*5, 10 + 6*Tiles.TILE_SIZE + i * Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		for( int i = 0; i < 5; ++i )
-			handler.addObject(new Bricks(10 + Tiles.TILE_SIZE*11, 10 + 3*Tiles.TILE_SIZE + i * Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		for( int i = 0; i < 4; ++i )
-			handler.addObject(new Bricks(10 + Tiles.TILE_SIZE*8 + i * Tiles.TILE_SIZE , 10 + 9*Tiles.TILE_SIZE , Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		for( int i = 0; i < 3; ++i )
-			handler.addObject(new Bricks(10 + Tiles.TILE_SIZE*6 + i * Tiles.TILE_SIZE , 10 + 11*Tiles.TILE_SIZE , Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		for( int i = 0; i < 5; ++i )
-			handler.addObject(new Bricks(10 + Tiles.TILE_SIZE*9 , 10 + 2*Tiles.TILE_SIZE + i * Tiles.TILE_SIZE , Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+	}
+	
+	public void initMap() {
+		int x1 = -1, y1 = -1, x2 = -1, y2 = -1;
+		for(int j = 0; j < mapSize; j++)
+			for(int i = 0; i < mapSize; i++) {
+				if(map[i][j] == '1')
+					handler.addObject( new Concrete(10 + Tiles.TILE_SIZE + Tiles.TILE_SIZE * j, 10 + Tiles.TILE_SIZE + Tiles.TILE_SIZE * i,Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+				if(map[i][j] == '2')
+					handler.addObject( new Bricks(10 + Tiles.TILE_SIZE + Tiles.TILE_SIZE * j, 10 + Tiles.TILE_SIZE + Tiles.TILE_SIZE * i,Tiles.TILE_SIZE, Tiles.TILE_SIZE));
+				if(map[i][j] == '3') {
+					if(x1 == -1) {
+						x1 = i;
+						y1 = j;
+					} else if(x2 == -1) { 
+						x2 = i;
+						y2 = j;
+					}
+				}	
+			}
+		handler.initPlayers(10 + Tiles.TILE_SIZE + Tiles.TILE_SIZE * x1, 10 + Tiles.TILE_SIZE + Tiles.TILE_SIZE * y1, 10 + Tiles.TILE_SIZE + Tiles.TILE_SIZE * x2, 10 + Tiles.TILE_SIZE + Tiles.TILE_SIZE * y2);
 		
-		handler.addObject(new Bricks(10 + 5*Tiles.TILE_SIZE, 10 + 2*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		handler.addObject(new Bricks(10 + 5*Tiles.TILE_SIZE, 10 + 4*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		handler.addObject(new Bricks(10 + Tiles.TILE_SIZE, 10 + 10*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		handler.addObject(new Bricks(10 + Tiles.TILE_SIZE*3, 10 + 9*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		handler.addObject(new Bricks(10 + Tiles.TILE_SIZE*4, 10 + 7*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		handler.addObject(new Bricks(10 + 10*Tiles.TILE_SIZE, 10 + 3*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		handler.addObject(new Bricks(10 + 10*Tiles.TILE_SIZE, 10 + 7*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		handler.addObject(new Bricks(10 + 8*Tiles.TILE_SIZE, 10 + 5*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));	
-		handler.addObject(new Bricks(10 + 3*Tiles.TILE_SIZE, 10 + 3*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		handler.addObject(new Bricks(10 + 3*Tiles.TILE_SIZE, 10 + 2*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		handler.addObject(new Bricks(10 + 5*Tiles.TILE_SIZE, 10 + 5*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
-		handler.addObject(new Bricks(10 + 7*Tiles.TILE_SIZE, 10 + 7*Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
 	}
 	
 }
