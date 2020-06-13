@@ -15,6 +15,7 @@ public class Client {
     public void connect(String ip, int port) throws UnknownHostException, IOException {
         clientSocket = new Socket(ip, port);
         clientSocket.setSoTimeout(1000);
+        clientSocket.setTcpNoDelay(true);
         os = new ObjectOutputStream(clientSocket.getOutputStream());
         is = new ObjectInputStream(clientSocket.getInputStream());
     }
