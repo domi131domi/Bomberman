@@ -56,7 +56,6 @@ public class Game implements Runnable {
 			music = AudioSystem.getAudioInputStream(new File("res/music/sound.wav"));
 			clip = AudioSystem.getClip();
 			clip.open(music);
-			clip.start();
 			clip.loop(Clip.LOOP_CONTINUOUSLY);
 		} catch(Exception e) {
 		}	
@@ -153,8 +152,16 @@ public class Game implements Runnable {
 	
 	private void drawGame(Graphics g) {
 		//draw grass background
-		g.setColor(Assets.backgroundColor);
-		g.fillRect(0, 0, 800, 800);
+		//g.setColor(Assets.backgroundColor);
+		//g.fillRect(0, 0, 800, 800);
+		g.drawImage(Assets.grass, 0, 0, Assets.WIDTH/2, Assets.HEIGHT/2, null);
+		g.drawImage(Assets.grass, Assets.WIDTH/2, Assets.HEIGHT/2, Assets.WIDTH/2, Assets.HEIGHT/2, null);
+		g.drawImage(Assets.grass, 0, Assets.HEIGHT/2, Assets.WIDTH/2, Assets.HEIGHT/2, null);
+		g.drawImage(Assets.grass, Assets.WIDTH/2, 0, Assets.WIDTH/2, Assets.HEIGHT/2, null);
+		
+		for(int i = 0; i < 12; i++)
+			for(int j = 0; j < 12; j++)
+				g.drawImage(Assets.grass, 10+Tiles.TILE_SIZE*i, 10+Tiles.TILE_SIZE*j, Tiles.TILE_SIZE, Tiles.TILE_SIZE, null);
 		
 		 for(int j = 0; j < gameInfo.getFireSize(); j++)
 				gameInfo.getFire(j).render(g);

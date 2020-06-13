@@ -11,7 +11,7 @@ public class Assets {
 	public static final Color backgroundColor = new Color(0x54DC35);
 	
 	public static BufferedImage player1, player2, bomb, bricks, concrete, steelVertical, steelHorizontal,
-    explosionUp, explosionDown, explosionLeft, explosionRight, explosionCenter, player1left, player2left;
+    explosionUp, explosionDown, explosionLeft, explosionRight, explosionCenter, player1left, player2left, grass;
    
 
 	public static void init() {
@@ -32,5 +32,8 @@ public class Assets {
 		explosionLeft = sheet.crop(0, Tiles.TILE_SIZE*4, Tiles.TILE_SIZE*2, Tiles.TILE_SIZE);
 		explosionRight = sheet.crop(0, Tiles.TILE_SIZE*5, Tiles.TILE_SIZE*2, Tiles.TILE_SIZE);
 		explosionCenter = sheet.crop(Tiles.TILE_SIZE*2, Tiles.TILE_SIZE*3, Tiles.TILE_SIZE, Tiles.TILE_SIZE);
+		
+		SpriteSheet grassSheet = new SpriteSheet(ImageLoader.loadImage("/textures/grass2.png"));
+		grass = grassSheet.crop(0, 0, Assets.WIDTH/2, Assets.HEIGHT/2);
 	}
 }
