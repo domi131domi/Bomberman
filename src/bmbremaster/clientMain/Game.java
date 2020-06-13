@@ -6,7 +6,12 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import java.io.File;
 import java.io.IOException;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import bmbremaster.client.Client;
 import bmbremaster.graphics.Assets;
@@ -34,7 +39,8 @@ public class Game implements Runnable {
 	
 	private int width, height;
 	private String title;
-
+	private AudioInputStream music;
+	private Clip clip;
 
 	public Game(String title, int width, int height) {
 		this.width = width;
@@ -45,6 +51,15 @@ public class Game implements Runnable {
 		keyboard = new KeyInput();
 		window.getCanvas().addKeyListener(keyboard);
 		gameInfo = new GameInfo();
+		
+		try {
+			music = AudioSystem.getAudioInputStream(new File("res/music/sound.wav"));
+			clip = AudioSystem.getClip();
+			clip.open(music);
+			clip.start();
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+		} catch(Exception e) {
+		}	
 	}
 	
 	private void tick() {
@@ -237,8 +252,17 @@ public class Game implements Runnable {
 				tick();
 				render();
 				if(connected) {
+					try {
+					if(!clip.isActive())
+						clip.start();
+					} catch(Exception e) {}
 				keyboard.update();
 				send();
+				} else {
+					try {
+					if(clip.isActive())
+						clip.stop();
+					}  catch(Exception e) {}
 				}
 				delta--;
 			}

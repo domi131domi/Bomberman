@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -54,6 +55,7 @@ public class ClientWindow {
 		chat = new Chat(jchat, client, "Default");
 		
 		frame.pack();
+	
 	}
 	
 	public Canvas getCanvas() {
