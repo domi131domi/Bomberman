@@ -193,7 +193,6 @@ public class Updater implements Runnable {
 	}
 	
 	public void readMap() {
-		handler = new Handler();
 		File myObj = new File("res/maps/" + mapName + ".txt");
 		try {
 			Scanner myReader = new Scanner(myObj);
@@ -213,6 +212,7 @@ public class Updater implements Runnable {
 	}
 	
 	public void initMap() {
+		handler = new Handler();
 		int x1 = -1, y1 = -1, x2 = -1, y2 = -1;
 		for(int j = 0; j < mapSize; j++)
 			for(int i = 0; i < mapSize; i++) {
