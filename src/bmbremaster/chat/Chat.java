@@ -81,13 +81,14 @@ public class Chat {
 				message = message.substring(message.indexOf(" ") + 1);
 				String ip = message.substring(0, message.indexOf(" "));
 				int port = Integer.parseInt(message.substring(message.indexOf(" ") + 1));
-				if(!connected) {
+				if(!this.connected) {
 					client.connect(ip, port);
 					printToConsole("Connected to: \n" + ip + ":" + port);
 					try {
 						client.sendMessage(new Msg("//setnick " + this.nickname));
 						} catch(IOException e1) {
 						}
+					this.connected = true;
 				} else
 					printToConsole("Already connected.");
 			} catch(IOException e) {
@@ -116,13 +117,14 @@ public class Chat {
 			try {
 				String ip = "localhost";
 				int port = 6666;
-				if(!connected) {
+				if(!this.connected) {
 					client.connect(ip, port);
 					printToConsole("Connected to: \n" + ip + ":" + port);
 					try {
 						client.sendMessage(new Msg("//setnick " + this.nickname));
 						} catch(IOException e1) {
 						}
+					this.connected = true;
 				} else
 					printToConsole("Already connected.");
 			} catch(IOException e) {

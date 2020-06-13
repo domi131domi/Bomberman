@@ -89,13 +89,13 @@ public class Game implements Runnable {
 				gameInfo.addBrick(new Bricks(cord.width, cord.height, Tiles.TILE_SIZE, Tiles.TILE_SIZE));
 			}
 			
-		} catch (Exception e) {
+		} catch (IOException | ClassNotFoundException e) {
 			this.connected = false;
 			window.getChat().connected = false;
 			if(errorMsg)
 				window.getChat().printToConsole("One of players has disconnected.\nTry to connect again.");
 			errorMsg = false;
-		}
+		} catch(NullPointerException e2) {}
 		
 	}
 	
@@ -240,14 +240,8 @@ public class Game implements Runnable {
 				keyboard.update();
 				send();
 				}
-				//ticks++;
 				delta--;
 			}
-			//if(timer >= 1000000000) {
-			//	System.out.println("Ticks and frames: " + ticks);
-			//	ticks = 0;
-			//	timer = 0;
-			//}
 		}
 		
 		stop();

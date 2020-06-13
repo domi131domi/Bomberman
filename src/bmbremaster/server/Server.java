@@ -64,9 +64,10 @@ public class Server {
     public void stop() {
     	stopListenForClients();
     	try {
+    		try {
     		for(int id : IDs) {
     			disconnect(id);
-    		}
+    		} } catch(Exception e) {}
     		System.out.println("All Clients disconnected");
     		while(!closeForConnections) {
     			try {
@@ -88,9 +89,8 @@ public class Server {
 			clients.get(ID).disconnect();
 	    	clients.remove(ID);
 	    	IDs.remove(ID);
-	    	System.out.println("Client removed from the server. ID: " + ID);
-		} catch (IOException e) {
-			if(IDs.contains(ID))
+		} catch (Exception e) {
+			//if(IDs.contains(ID))
 				System.out.println("Cannot remove client. ID: " + ID);
 		}
 

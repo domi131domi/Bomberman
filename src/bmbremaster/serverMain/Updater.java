@@ -1,4 +1,4 @@
-package bmbremaster.clientMain;
+package bmbremaster.serverMain;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -194,7 +194,7 @@ public class Updater implements Runnable {
 	
 	public void readMap() {
 		handler = new Handler();
-		File myObj = new File(mapName + ".txt");
+		File myObj = new File("res/maps/" + mapName + ".txt");
 		try {
 			Scanner myReader = new Scanner(myObj);
 			int y = 0;
@@ -222,11 +222,11 @@ public class Updater implements Runnable {
 					handler.addObject( new Bricks(10 + Tiles.TILE_SIZE + Tiles.TILE_SIZE * j, 10 + Tiles.TILE_SIZE + Tiles.TILE_SIZE * i,Tiles.TILE_SIZE, Tiles.TILE_SIZE));
 				if(map[i][j] == '3') {
 					if(x1 == -1) {
-						x1 = i;
-						y1 = j;
+						x1 = j;
+						y1 = i;
 					} else if(x2 == -1) { 
-						x2 = i;
-						y2 = j;
+						x2 = j;
+						y2 = i;
 					}
 				}	
 			}

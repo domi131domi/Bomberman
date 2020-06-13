@@ -11,8 +11,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import bmbremaster.clientMain.Updater;
-
 public class ServerLauncher {
 	static JTextField textfield1, textfield2;
 	static Updater game = null;
@@ -23,8 +21,8 @@ public class ServerLauncher {
 			JFrame f = new JFrame("Text Field Examples");
 			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			f.setResizable(false);
-			f.setLocationRelativeTo(null);
 			f.setSize(600,600);
+			f.setLocationRelativeTo(null);
 		    f.getContentPane().setLayout(new FlowLayout());
 		    textfield1 = new JTextField("6666",10);
 		    textfield2 = new JTextField("map",10);
