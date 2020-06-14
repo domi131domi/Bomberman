@@ -257,7 +257,6 @@ public class Game implements Runnable {
 			
 			if(delta >= 1) {
 				tick();
-				render();
 				if(connected) {
 					try {
 					if(!clip.isActive())
@@ -265,6 +264,7 @@ public class Game implements Runnable {
 					} catch(Exception e) {}
 				keyboard.update();
 				send();
+				render();
 				} else {
 					try {
 					if(clip.isActive())
