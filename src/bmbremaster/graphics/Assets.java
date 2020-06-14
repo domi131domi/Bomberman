@@ -33,7 +33,7 @@ public class Assets {
 		explosionRight = sheet.crop(0, Tiles.TILE_SIZE*5, Tiles.TILE_SIZE*2, Tiles.TILE_SIZE);
 		explosionCenter = sheet.crop(Tiles.TILE_SIZE*2, Tiles.TILE_SIZE*3, Tiles.TILE_SIZE, Tiles.TILE_SIZE);
 		
-		SpriteSheet grassSheet = new SpriteSheet(ImageLoader.loadImage("/textures/grass2.png"));
+		SpriteSheet grassSheet = new SpriteSheet(ImageLoader.loadImage("/textures/grass.png"));
 		grass = grassSheet.crop(0, 0, Assets.WIDTH/2, Assets.HEIGHT/2);
 	}
 }
